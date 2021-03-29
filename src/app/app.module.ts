@@ -23,6 +23,7 @@ import {
 } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { CompanyComponent } from './pages/company/company.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { CompanyComponent } from './pages/company/company.component';
     HttpClientModule,
     ComponentsModule,
     RouterModule,
+    
     AppRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
@@ -41,6 +43,7 @@ import { CompanyComponent } from './pages/company/company.component';
     AppComponent,
     AdminLayoutComponent,
     CompanyComponent,
+    PaginationComponent,
 
   ],
   providers: [],
