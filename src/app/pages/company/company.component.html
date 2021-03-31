@@ -13,12 +13,12 @@
                     </div>
                     <div class="content table-responsive table-full-width">
                     
-                        <p-table [value]="companies" [showCurrentPageReport]="true"  
-                        currentPageReportTemplate="Showing {first} to {last} of {{totalRecords}} entries">
+                        <p-table class="table table-hover table-striped" [value]="companies" [lazy]="true" [showCurrentPageReport]="true"   (onLazyLoad)="paginate($event)"
+                        [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [sortField]="orderBy">
                         
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn='id'>Id {{totalRecords}}<p-sortIcon field="id"></p-sortIcon></th>
+                                <th pSortableColumn='id'>Id<p-sortIcon field="id"></p-sortIcon></th>
                                 <th pSortableColumn='name'>Nome <p-sortIcon field="name"></p-sortIcon></th>
                                 <th>Ações</th>
                             </tr>
@@ -27,19 +27,23 @@
                             <tr>
                                 <td>{{company.id}}</td>
                                 <td>{{company.name}}</td>
+                                <td class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <img src="../../assets/img/outline_view_headline_black_18.png" ><b class="btn-simple btn-icon"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a data-toggle="modal" data-target="#modalUpdateComp" (click)="listCompany(company.id)">Editar</a></li>
+                                        <li><a data-toggle="modal"  data-target="#modalDelComp"  (click)="listCompany(company.id)">Excluir</a></li>
+                                    </ul>                               
+                            </td>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="paginatorleft">
-                            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-                        </ng-template>
-                        <ng-template pTemplate="paginatorright">
-                            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-                        </ng-template>
+                        
                     </p-table>
 
                     </div>
                         <!-- <app-pagination [page]="page" (paginationEvent)=changePage($event)></app-pagination> -->
-                        <p-paginator [rows]="10" totalRecords={{totalRecords}} (onPageChange)="paginate($event)"></p-paginator>
+                       <!--  <p-paginator [rows]="10" totalRecords={{totalRecords}} (onLazyLoad)=paginate($event)></p-paginator> -->
 
                         
                 </div>

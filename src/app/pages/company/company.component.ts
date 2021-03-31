@@ -31,6 +31,7 @@ export class CompanyComponent implements OnInit {
   public pageSize = 10
   public orderBy = 'id'
   public totalRecords: number
+  public direction: string = 'ASC'
   public  loading: boolean
 
   @Output() public updateList: EventEmitter<any> = new EventEmitter<any>()
@@ -40,13 +41,13 @@ export class CompanyComponent implements OnInit {
   }
 
    ngOnInit(): void {
-       this.listCompanies(this.pageNumber, this.pageSize, this.orderBy)
+       this.listCompanies(this.pageNumber, this.pageSize, this.orderBy, this.direction)
      
    } 
 
-  public listCompanies(page: number, size: number, orderBy: string){
+  public listCompanies(page: number, size: number, orderBy: string, direction: string){
     this.loading = true
-    this.companyService.getCompanies(page, size, orderBy)
+    this.companyService.getCompanies(page, size, orderBy, direction)
     .subscribe(response => {
       this.page = response
       this.totalRecords = this.page.totalElements
@@ -67,8 +68,12 @@ export class CompanyComponent implements OnInit {
   }
 
   public paginate(event){
-  console.log(event)  
-  this.listCompanies(event.page, event.rows, this.orderBy) 
+  console.log(event)
+  this.pageNumber = event.first/10
+  this.orderBy = event.sortField
+  var direction = event.sortOrder == -1 ? 'ASC' :  'DESC'
+  console.log(this.pageNumber, event.rows, event.sortField, direction)
+  this.listCompanies(this.pageNumber, event.rows, this.orderBy, direction) 
   }
 
   public edit(id: number){
@@ -89,11 +94,11 @@ export class CompanyComponent implements OnInit {
   }
 
   public att() {
-    this.listCompanies(this.pageNumber, this.pageSize, this.orderBy) // para atualizar o dados do array
+    this.listCompanies(this.pageNumber, this.pageSize, this.orderBy, this.direction) // para atualizar o dados do array
       this.show = false // tirar tabela do DOM
         setTimeout(() => {
           this.show = true // retorna com tabela para o DOM e os dados atualizados do
-          this.listCompanies(this.pageNumber, this.pageSize, this.orderBy)
+          this.listCompanies(this.pageNumber, this.pageSize, this.orderBy, this.direction)
         }, 50);
     }
 

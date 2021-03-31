@@ -28,8 +28,8 @@ export class CompanyService{
     
     constructor(public http: HttpClient){}
 
-    public getCompanies(page: number, linesPerPage: number, orderBy: string): Observable<Page>{
-    return this.http.get<Page>(`${API_CONFIG.baseUrl}/companies?page=${page}&linesPerPage=${linesPerPage}&orderBy=${orderBy}`)
+    public getCompanies(page: number, linesPerPage: number, orderBy: string, direction: string): Observable<Page>{
+    return this.http.get<Page>(`${API_CONFIG.baseUrl}/companies?page=${page}&linesPerPage=${linesPerPage}&orderBy=${orderBy}&direction=${direction}`)
 }  
 
 public insert(obj: Company){
