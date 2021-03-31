@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Company } from 'app/models/company.model';
 import { Page } from 'app/models/page';
 import { CompanyService } from 'app/services/company.service';
+import { PrimeNGConfig } from 'primeng/api';
+import {PaginatorModule} from 'primeng/paginator';
 
 @Component({
   selector: 'app-company',
@@ -24,9 +26,13 @@ export class CompanyComponent implements OnInit {
   public companies: any[] = []
   public page : Page
   public show: boolean = true
-  public company_id: number
   public company: Company
-  
+  public pageNumber = 0
+  public pageSize = 10
+  public orderBy = 'id'
+  public totalRecords: number
+  public  loading: boolean
+
   @Output() public updateList: EventEmitter<any> = new EventEmitter<any>()
   
   constructor(private companyService:CompanyService) { 
@@ -34,14 +40,19 @@ export class CompanyComponent implements OnInit {
   }
 
    ngOnInit(): void {
-       this.listCompanies(0, 10)
+       this.listCompanies(this.pageNumber, this.pageSize, this.orderBy)
+     
    } 
 
-  public listCompanies(page: number, size: number){
-    this.companyService.getCompanies(page, size)
+  public listCompanies(page: number, size: number, orderBy: string){
+    this.loading = true
+    this.companyService.getCompanies(page, size, orderBy)
     .subscribe(response => {
       this.page = response
+      this.totalRecords = this.page.totalElements
+      console.log(this.totalRecords)
       this.companies = response.content
+      this.loading = false
     })
   }
 
@@ -55,9 +66,9 @@ export class CompanyComponent implements OnInit {
         })
   }
 
-  public changePage(event){
+  public paginate(event){
   console.log(event)  
-  this.listCompanies(event.page, event.size) 
+  this.listCompanies(event.page, event.rows, this.orderBy) 
   }
 
   public edit(id: number){
@@ -78,11 +89,11 @@ export class CompanyComponent implements OnInit {
   }
 
   public att() {
-    this.listCompanies(0,10) // para atualizar o dados do array
+    this.listCompanies(this.pageNumber, this.pageSize, this.orderBy) // para atualizar o dados do array
       this.show = false // tirar tabela do DOM
         setTimeout(() => {
           this.show = true // retorna com tabela para o DOM e os dados atualizados do
-          this.listCompanies(0,10)
+          this.listCompanies(this.pageNumber, this.pageSize, this.orderBy)
         }, 50);
     }
 

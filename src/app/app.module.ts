@@ -24,6 +24,9 @@ import {
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { CompanyComponent } from './pages/company/company.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import {TableModule} from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import {PaginatorModule} from 'primeng/paginator';
 
 @NgModule({
   imports: [
@@ -33,7 +36,9 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     HttpClientModule,
     ComponentsModule,
     RouterModule,
-    
+    TableModule,
+    ButtonModule,
+    PaginatorModule,
     AppRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
