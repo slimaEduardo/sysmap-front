@@ -24,9 +24,12 @@ import {
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { CompanyComponent } from './pages/company/company.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { PaginatorModule } from 'primeng/paginator';
+import {ButtonModule} from 'primeng/button';
 import {TableModule} from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import {PaginatorModule} from 'primeng/paginator';
+import { InputTextModule } from 'primeng/inputtext';
+import { DestinyComponent } from './pages/destiny/destiny.component';
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   imports: [
@@ -39,6 +42,8 @@ import {PaginatorModule} from 'primeng/paginator';
     TableModule,
     ButtonModule,
     PaginatorModule,
+    InputTextModule,
+    DropdownModule,
     AppRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
@@ -49,6 +54,7 @@ import {PaginatorModule} from 'primeng/paginator';
     AdminLayoutComponent,
     CompanyComponent,
     PaginationComponent,
+    DestinyComponent,
 
   ],
   providers: [],

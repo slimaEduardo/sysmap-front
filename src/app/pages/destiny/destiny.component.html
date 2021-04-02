@@ -1,40 +1,42 @@
 <div class="main-content">
     <div class="container-fluid">
-        <button type="button" class="btn btn-round btn-fill btn-success" data-toggle="modal" data-target="#modalAddComp" (click)="resetFormulary()">nova empresa</button>
+        <button type="button" class="btn btn-round btn-fill btn-success" data-toggle="modal" data-target="#modalAdd" (click)="resetFormulary()">novo destino</button>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-success">
-                        <h4 class="card-title ">Empresas</h4>
-                        <p class="card-category"> Empresas aptas para operar</p>
+                        <h4 class="card-title ">Destinos</h4>
+                        <p class="card-category">Destinos habilitados para viagem</p>
                     </div>
                     <div class="header">
-                        <!-- <h4 class="title">Empresas</h4> -->
                     </div>
-                        <p-table class="table table-hover table-striped" #dt1 [value]="companies" [lazy]="true" [showCurrentPageReport]="true"  
+                        <p-table class="table table-hover table-striped" #dt1 [value]="destinies" [lazy]="true" [showCurrentPageReport]="true"  
                         currentPageReportTemplate="Mostrando {first} a {last} de {{totalRecords}} resultados"
                         [rowsPerPageOptions]="[10,20,30]" (onLazyLoad)="paginate($event)"
                         [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [sortField]="orderBy"
                         [globalFilterFields]="['id','name']" >
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn='id'>Id<p-sortIcon field="id"></p-sortIcon>
-                                </th>
+                                <th pSortableColumn='id'>Id<p-sortIcon field="id"></p-sortIcon></th>
                                 <th pSortableColumn='name'>Nome <p-sortIcon field="name"></p-sortIcon></th>
+                                <th pSortableColumn='distance'>Distância<p-sortIcon field="distance"></p-sortIcon></th>
+                                <th pSortableColumn='category'>Tipo<p-sortIcon field="category"></p-sortIcon></th>
                                 <th>Ações</th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-company>
+                        <ng-template pTemplate="body" let-destiny>
                             <tr>
-                                <td>{{company.id}}</td>
-                                <td>{{company.name}}</td>
+                                <td>{{destiny.id}}</td>
+                                <td>{{destiny.name}}</td>
+                                <td>{{destiny.distance}}</td>
+                                <td>{{destiny.typeLine}}</td>
                                 <td class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <img src="../../assets/img/outline_view_headline_black_18.png" ><b class="btn-simple btn-icon"></b>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a data-toggle="modal" data-target="#modalUpdateComp" (click)="listCompany(company.id)">Editar</a></li>
-                                        <li><a data-toggle="modal"  data-target="#modalDelComp"  (click)="listCompany(company.id)">Excluir</a></li>
+                                        <li><a data-toggle="modal" data-target="#modalUpdate" (click)="listObj(destiny.id)">Editar</a></li>
+                                        <li><a data-toggle="modal" data-target="#modalDel" (click)="listObj(destiny.id)">Excluir</a></li>
                                     </ul>                               
                             </td>
                             </tr>
@@ -46,14 +48,14 @@
     </div>
 </div>
 
- <!-- Modal para inserir Empresa -->
+<!-- Modal para inserir Empresa -->
 
- <div class="modal modal-angular fade" id="modalAddComp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal modal-angular fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
     <div class="modal-content">
-    <form [formGroup]="formulary" (ngSubmit)="addCmp()">
+    <form [formGroup]="formulary" (ngSubmit)="addObj()">
         <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nova Empresa</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Novo Destino</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -66,21 +68,34 @@
                             <label for="recipient-name" class="col-form-label">Nome</label>
                             <input type="text" class="form-control" formControlName="name" required>
                         </div>
+                        <div class="col-sm-12">
+                            <label for="recipient-name" class="col-form-label">Distância</label>
+                            <input type="number" class="form-control" formControlName="distance" required>
+                        </div>
+                        <div class="col-sm-12">
+                            <label for="recipient-name" class="dropdown-menu">Tipo de Linha</label>
+                                <select  class="form-control" id="categoryId" formControlName="categoryId"  required>
+                                <option value="" selected="true">--Selecione uma categoria--</option>
+                                <option *ngFor="let typeLine of typeLines" [value]="typeLine.id">{{ typeLine.name }}</option>
+                            </select> 
+                        </div>
                     </div>
                 </div>
         </div>
         <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-info" [disabled]="!formulary.valid">Adicionar</button>
+        <button type="submit" class="btn btn-info" >Adicionar</button>
         </div>
     </form>
     </div>
     </div>
 </div>
 
+<!-- [disabled]="!formulary.valid" -->
+
 <!-- Modal de Edição de empresas-->
 
-<div class="modal modal-angular fade" id="modalUpdateComp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal modal-angular fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
     <div class="modal-content">
         <form [formGroup]="formulary">
@@ -95,14 +110,25 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <label for="recipient-name" class="col-form-label"></label>
-                        <input type="text" class="form-control" data-whatever="company.name" placeholder="Nome da Empresa" formControlName="name" required>
+                        <input type="text" class="form-control" data-whatever="destiny.name" placeholder="Nome do Destino" formControlName="name" required>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="recipient-name" class="col-form-label"></label>
+                        <input type="number" class="form-control" data-whatever="destiny.distance" placeholder="Distância" formControlName="distance" required>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="recipient-name" class="dropdown-menu">Tipo de Linha</label>
+                            <select  class="form-control" id="categoryId" formControlName="categoryId"  required>
+                            <option value="" selected="true">--Selecione uma categoria--</option>
+                            <option *ngFor="let typeLine of typeLines" [value]="typeLine.id">{{ typeLine.name }}</option>
+                        </select> 
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-info"  [disabled]="!formulary.valid" (click)="edit(company.id)">Editar</button>
+            <button type="submit" class="btn btn-info" (click)="edit(destiny.id)">Editar</button>
         </div>
         </form>
     </div>
@@ -111,7 +137,7 @@
 
 <!-- Modal para excluir empresas -->
 
-<div class="modal fade" id="modalDelComp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="modalDel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
         <div class="modal-header">
@@ -125,7 +151,7 @@
         </div>
         <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger" (click)="delete(company.id)" data-dismiss="modal">Apagar</button>
+        <button type="button" class="btn btn-danger" (click)="delete(destiny.id)" data-dismiss="modal">Apagar</button>
         </div>
     </div>
 </div>

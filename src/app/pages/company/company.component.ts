@@ -4,8 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Company } from 'app/models/company.model';
 import { Page } from 'app/models/page';
 import { CompanyService } from 'app/services/company.service';
-import { PrimeNGConfig } from 'primeng/api';
-import {PaginatorModule} from 'primeng/paginator';
+import { LazyLoadEvent } from 'primeng/api';
 
 @Component({
   selector: 'app-company',
@@ -22,7 +21,6 @@ export class CompanyComponent implements OnInit {
 
 
   displayedColumns: string[] = ['id', 'name'];
-      
   public companies: any[] = []
   public page : Page
   public show: boolean = true
@@ -33,6 +31,7 @@ export class CompanyComponent implements OnInit {
   public totalRecords: number
   public direction: string = 'ASC'
   public  loading: boolean
+  public globalFilter: string = ""
 
   @Output() public updateList: EventEmitter<any> = new EventEmitter<any>()
   
@@ -67,13 +66,17 @@ export class CompanyComponent implements OnInit {
         })
   }
 
-  public paginate(event){
+  public paginate(event: LazyLoadEvent){
   console.log(event)
-  this.pageNumber = event.first/10
+  this.pageNumber = Math.floor(event.first/event.rows)
   this.orderBy = event.sortField
-  var direction = event.sortOrder == -1 ? 'ASC' :  'DESC'
-  console.log(this.pageNumber, event.rows, event.sortField, direction)
-  this.listCompanies(this.pageNumber, event.rows, this.orderBy, direction) 
+  
+  var direction = event.sortOrder == -1 ? 'DESC' :  'ASC'
+  console.log(this.pageNumber, event.rows, event.sortField, direction, event.globalFilter)
+  this.listCompanies(this.pageNumber, event.rows, this.orderBy, direction)
+  if(event.globalFilter != null){
+    console.log("chegamos aqui!")
+  } 
   }
 
   public edit(id: number){
