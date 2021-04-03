@@ -18,13 +18,14 @@ export class DestinyComponent implements OnInit {
     id: new FormControl(''),
     name: new FormControl('' , [Validators.required, Validators.minLength(5), Validators.maxLength(40)]),
     distance: new FormControl('' , [Validators.required, Validators.minLength(2), Validators.maxLength(5), Validators.pattern('[0-9]')]),
-    categoryId: new FormControl('1' , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')])
+    categoryId: new FormControl('' , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')])
     })
 
   public destinies: any[] = []
   public page : Page
   public show: boolean = true
   public destiny: Destiny
+  public destinyNew: DestinyNew
   public pageNumber = 0
   public pageSize = 10
   public orderBy = 'id'
@@ -44,8 +45,8 @@ export class DestinyComponent implements OnInit {
     .subscribe(response => {
       this.page = response
       this.totalRecords = this.page.totalElements
-      console.log(this.totalRecords)
       this.destinies = response.content
+      //console.log(this.destinies)
       this.loading = false
     })
   }
@@ -56,20 +57,17 @@ export class DestinyComponent implements OnInit {
   }
 
   public paginate(event: LazyLoadEvent){
-    console.log(event)
+    //console.log(event)
     this.pageNumber = Math.floor(event.first/event.rows)
     this.orderBy = event.sortField
     
     var direction = event.sortOrder == -1 ? 'DESC' :  'ASC'
-    console.log(this.pageNumber, event.rows, event.sortField, direction, event.globalFilter)
+    //console.log(this.pageNumber, event.rows, event.sortField, direction, event.globalFilter)
     this.listDestinies(this.pageNumber, event.rows, this.orderBy, direction)
-    if(event.globalFilter != null){
-      console.log("chegamos aqui!")
-    } 
     }
 
     public edit(id: number){
-      console.log("editar", id)
+      //console.log("editar", id)
       let aux: DestinyNew
       aux = this.formulary.value
       this.destinyService.update(id,aux)
@@ -107,12 +105,13 @@ export class DestinyComponent implements OnInit {
 
       public listObj(id: number){
         this.destinyService.findById(id).subscribe(response => {
+          console.log(response)
           this.destiny = response
           this.formulary = new FormGroup({
             id: new FormControl(this.destiny.id),
             name: new FormControl(this.destiny.name, [Validators.required, Validators.minLength(5), Validators.maxLength(40)]),
             distance: new FormControl(this.destiny.distance,[Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')]),
-            categoryId: new FormControl(this.destiny.typeLine , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')])
+            categoryId: new FormControl(this.destiny.category.id , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')])
           })
         },
         error => {
@@ -125,7 +124,7 @@ export class DestinyComponent implements OnInit {
         this.destinyService.listCategories()
         .then(response => {
           this.typeLines = response
-          console.log(this.typeLines)
+          //console.log(this.typeLines)
         })
       }
 }

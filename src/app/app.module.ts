@@ -30,6 +30,7 @@ import {TableModule} from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { DestinyComponent } from './pages/destiny/destiny.component';
 import {DropdownModule} from 'primeng/dropdown';
+import { TravelMapComponent } from './pages/travel-map/travel-map.component';
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import {DropdownModule} from 'primeng/dropdown';
     CompanyComponent,
     PaginationComponent,
     DestinyComponent,
+    TravelMapComponent,
 
   ],
   providers: [],

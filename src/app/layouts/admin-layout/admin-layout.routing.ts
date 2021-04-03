@@ -10,6 +10,7 @@ import { NotificationsComponent } from '../../notifications/notifications.compon
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { CompanyComponent } from 'app/pages/company/company.component';
 import { DestinyComponent } from 'app/pages/destiny/destiny.component';
+import { TravelMapComponent } from 'app/pages/travel-map/travel-map.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -59,6 +60,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'table-list',     component: TableListComponent },
     { path: 'company',        component: CompanyComponent },
     { path: 'destiny',        component: DestinyComponent },
+    { path: 'travelMap',        component: TravelMapComponent },
     { path: 'typography',     component: TypographyComponent },
     { path: 'icons',          component: IconsComponent },
     { path: 'maps',           component: MapsComponent },

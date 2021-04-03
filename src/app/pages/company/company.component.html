@@ -1,6 +1,6 @@
 <div class="main-content">
     <div class="container-fluid">
-        <button type="button" class="btn btn-round btn-fill btn-success" data-toggle="modal" data-target="#modalAddComp" (click)="resetFormulary()">nova empresa</button>
+        <button type="button" class="btn btn-round btn-fill btn-success" data-toggle="modal" data-target="#modalAddComp" (click)="resetFormulary()">novo mapa</button>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -29,7 +29,7 @@
                                 <td>{{company.id}}</td>
                                 <td>{{company.name}}</td>
                                 <td class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <a href="#" class="dropdown" data-toggle="dropdown">
                                         <img src="../../assets/img/outline_view_headline_black_18.png" ><b class="btn-simple btn-icon"></b>
                                     </a>
                                     <ul class="dropdown-menu">
@@ -53,7 +53,7 @@
     <div class="modal-content">
     <form [formGroup]="formulary" (ngSubmit)="addCmp()">
         <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nova Empresa</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Novo Mapa</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -61,6 +61,36 @@
         <div class="modal-body">
             
                 <div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="recipient-name" class="col-form-label">Nome</label>
+                            <input type="text" class="form-control" formControlName="name" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="recipient-name" class="col-form-label">Nome</label>
+                            <input type="text" class="form-control" formControlName="name" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="recipient-name" class="col-form-label">Nome</label>
+                            <input type="text" class="form-control" formControlName="name" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="recipient-name" class="col-form-label">Nome</label>
+                            <input type="text" class="form-control" formControlName="name" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="recipient-name" class="col-form-label">Nome</label>
+                            <input type="text" class="form-control" formControlName="name" required>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-sm-12">
                             <label for="recipient-name" class="col-form-label">Nome</label>

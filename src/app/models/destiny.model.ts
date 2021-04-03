@@ -2,7 +2,7 @@ export interface Destiny{
     id: number
     name: string
     distance: number
-    typeLine: string
+    category: TypeLine
 }
 
 export interface DestinyNew{

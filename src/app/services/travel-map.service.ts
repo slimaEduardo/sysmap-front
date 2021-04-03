@@ -1,43 +1,41 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { API_CONFIG } from "app/config/api.config";
-import { Destiny, DestinyNew } from "app/models/destiny.model";
 import { Page } from "app/models/page";
+import { TravelMap, TravelMapNew } from "app/models/travel-map.model";
 import { Observable } from "rxjs";
-import { map } from 'rxjs/operators'
-
 
 @Injectable()
-export class DestinyService{
+export class TravelMapService{
   delete(id: number) {
-    return this.http.delete(`${API_CONFIG.baseUrl}/destinies/${id}`)
+    return this.http.delete(`${API_CONFIG.baseUrl}/maps/${id}`)
     .subscribe(response => {
       
     })
   }
 
-  update(id: number, aux: DestinyNew) {
-    aux.name = aux.name.toUpperCase()
+  update(id: number, aux: TravelMapNew) {
+    
     console.log(aux)
-    return this.http.put(`${API_CONFIG.baseUrl}/destinies/${id}`, aux)
+    return this.http.put(`${API_CONFIG.baseUrl}/maps/${id}`, aux)
     .subscribe(response => {
      }, error => {console.log(error)})
   }
 
   findById(id: number) {
-    return this.http.get<Destiny>(`${API_CONFIG.baseUrl}/destinies/${id}`);
+    return this.http.get<TravelMap>(`${API_CONFIG.baseUrl}/maps/${id}`);
   }
     
     constructor(public http: HttpClient){}
 
     public getCompanies(page: number, linesPerPage: number, orderBy: string, direction: string): Observable<Page>{
-    return this.http.get<Page>(`${API_CONFIG.baseUrl}/destinies?page=${page}&linesPerPage=${linesPerPage}&orderBy=${orderBy}&direction=${direction}`)
+    return this.http.get<Page>(`${API_CONFIG.baseUrl}/maps?page=${page}&linesPerPage=${linesPerPage}&orderBy=${orderBy}&direction=${direction}`)
 }  
 
-public insert(obj: Destiny){
-  obj.name = obj.name.toUpperCase()
+public insert(obj: TravelMapNew){
+  
   console.log(obj)
-    return this.http.post(`${API_CONFIG.baseUrl}/destinies`,obj,
+    return this.http.post(`${API_CONFIG.baseUrl}/maps`,obj,
     {
       observe: 'response',
       responseType: 'text'
@@ -45,7 +43,7 @@ public insert(obj: Destiny){
   }
 
   public listCategories(){
-    return this.http.get(`${API_CONFIG.baseUrl}/lines`)
+    return this.http.get(`${API_CONFIG.baseUrl}/categories`)
       .toPromise()
       .then((response: any) => {  
         return response

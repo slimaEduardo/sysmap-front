@@ -28,10 +28,10 @@
                             <tr>
                                 <td>{{destiny.id}}</td>
                                 <td>{{destiny.name}}</td>
-                                <td>{{destiny.distance}}</td>
-                                <td>{{destiny.typeLine}}</td>
+                                <td>{{destiny.distance}} Km</td>
+                                <td>{{destiny.category.name}}</td>
                                 <td class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <a href="#" class="dropdown" data-toggle="dropdown">
                                         <img src="../../assets/img/outline_view_headline_black_18.png" ><b class="btn-simple btn-icon"></b>
                                     </a>
                                     <ul class="dropdown-menu">
@@ -65,19 +65,18 @@
                 <div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <label for="recipient-name" class="col-form-label">Nome</label>
+                            <label for="recipient-name" class="col-form-label">Nome da cidade</label>
                             <input type="text" class="form-control" formControlName="name" required>
                         </div>
-                        <div class="col-sm-12">
-                            <label for="recipient-name" class="col-form-label">Distância</label>
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Distância (em Km)</label>
                             <input type="number" class="form-control" formControlName="distance" required>
                         </div>
-                        <div class="col-sm-12">
-                            <label for="recipient-name" class="dropdown-menu">Tipo de Linha</label>
-                                <select  class="form-control" id="categoryId" formControlName="categoryId"  required>
-                                <option value="" selected="true">--Selecione uma categoria--</option>
-                                <option *ngFor="let typeLine of typeLines" [value]="typeLine.id">{{ typeLine.name }}</option>
-                            </select> 
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Tipo de Linha</label>
+                            <select class="custom-select"  formControlName="categoryId" required>
+                            <option *ngFor="let typeLine of typeLines" [ngValue]="typeLine.id">{{ typeLine.name }}</option>
+                            </select>                            
                         </div>
                     </div>
                 </div>
@@ -109,17 +108,16 @@
             <div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <label for="recipient-name" class="col-form-label"></label>
+                        <label for="recipient-name" class="col-form-label">Nome da Cidade</label>
                         <input type="text" class="form-control" data-whatever="destiny.name" placeholder="Nome do Destino" formControlName="name" required>
                     </div>
-                    <div class="col-sm-12">
-                        <label for="recipient-name" class="col-form-label"></label>
+                    <div class="col-sm-6">
+                        <label for="recipient-name" class="col-form-label">Distância (em Km)</label>
                         <input type="number" class="form-control" data-whatever="destiny.distance" placeholder="Distância" formControlName="distance" required>
                     </div>
-                    <div class="col-sm-12">
-                        <label for="recipient-name" class="dropdown-menu">Tipo de Linha</label>
-                            <select  class="form-control" id="categoryId" formControlName="categoryId"  required>
-                            <option value="" selected="true">--Selecione uma categoria--</option>
+                    <div class="col-sm-6">
+                        <label for="recipient-name" class="col-form-label">Tipo de Linha</label>
+                            <select  class="custom-select" id="categoryId" formControlName="categoryId" required>
                             <option *ngFor="let typeLine of typeLines" [value]="typeLine.id">{{ typeLine.name }}</option>
                         </select> 
                     </div>

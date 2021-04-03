@@ -115,7 +115,7 @@
   a:focus,
   a:active {
     @include shadow-small-color($brand-primary);
-    background-color: $brand-primary;
+    background-color: $brand-success;
     color: #FFFFFF;
   }
 }
@@ -125,9 +125,9 @@
   &.bmd-btn-icon,
   &.bmd-btn-fab {
     // remove the dropdown icon
-    &::after {
-      display: none;
-    }
+  &::after {
+  display: none;
+}
 
     ~ .dropdown-menu {
       &.dropdown-menu-top-left,

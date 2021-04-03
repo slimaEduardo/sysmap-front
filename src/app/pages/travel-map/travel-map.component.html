@@ -1,0 +1,199 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <button type="button" class="btn btn-round btn-fill btn-success" data-toggle="modal" data-target="#modalAdd" (click)="resetFormulary()">novo mapa</button>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-success">
+                        <h4 class="card-title ">Mapas</h4>
+                        <p class="card-category">Mapas cadastrados</p>
+                    </div>
+                    <div class="header">
+                        <!-- <h4 class="title">Empresas</h4> -->
+                    </div>
+                        <p-table class="table table-hover table-striped" #dt1 [value]="travelMaps" [lazy]="true" [showCurrentPageReport]="true"  
+                        currentPageReportTemplate="Mostrando {first} a {last} de {{totalRecords}} resultados"
+                        [rowsPerPageOptions]="[10,20,30]" (onLazyLoad)="paginate($event)"
+                        [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [sortField]="orderBy"
+                        [globalFilterFields]="['id','name']" >
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn='id'>Id<p-sortIcon field="id"></p-sortIcon></th>
+                                <th pSortableColumn='name'>Destino<p-sortIcon field="name"></p-sortIcon></th>
+                                <th pSortableColumn='name'>Data<p-sortIcon field="name"></p-sortIcon></th>
+                                <th pSortableColumn='name'>Hora<p-sortIcon field="name"></p-sortIcon></th>
+                                <th pSortableColumn='name'>Empresa<p-sortIcon field="name"></p-sortIcon></th>
+                                <th pSortableColumn='name'>Categoria<p-sortIcon field="name"></p-sortIcon></th>
+                                <th pSortableColumn='name'>Passageiros<p-sortIcon field="name"></p-sortIcon></th>
+                                <th>Ações</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-map>
+                            <tr>
+                                <td>{{map.id}}</td>
+                                <td>{{map.destinyName}}</td>
+                                <td>{{map.boardingDate}}</td>
+                                <td>{{map.boardingTime}}</td>
+                                <td>{{map.companyName}}</td>
+                                <td>{{map.busCategory}}</td>
+                                <td>{{map.passQtt}}</td>
+                                <td class="dropdown">
+                                    <a href="#" class="dropdown" data-toggle="dropdown">
+                                        <img src="../../assets/img/outline_view_headline_black_18.png" ><b class="btn-simple btn-icon"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a data-toggle="modal" data-target="#modalUpdateComp" (click)="listCompany(company.id)">Editar</a></li>
+                                        <li><a data-toggle="modal"  data-target="#modalDelComp"  (click)="listCompany(company.id)">Excluir</a></li>
+                                    </ul>                               
+                            </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <!-- Modal para inserir Empresa -->
+
+ <div class="modal modal-angular fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <form [formGroup]="formulary" (ngSubmit)="addObj()">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nova Empresa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            
+                <div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Data Aqui</label>
+                            <input type="date" class="form-control" formControlName="boardingDate" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Hora Aqui</label>
+                            <input type="time" class="form-control" formControlName="boardingTime" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="recipient-name" class="col-form-label">Destino por id</label>
+                            <input type="text" class="form-control" formControlName="destinyId" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="recipient-name" class="col-form-label">Passageiros</label>
+                            <input type="number" class="form-control" formControlName="passQtt" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="recipient-name" class="col-form-label">Tipo de onibus</label>
+                            <input type="text" class="form-control" formControlName="busId" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="recipient-name" class="col-form-label">Empresa</label>
+                            <input type="text" class="form-control" formControlName="companyId" required>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-info">Adicionar</button>
+        </div>
+    </form>
+    </div>
+    </div>
+</div>
+
+<!-- Modal de Edição de empresas-->
+
+<div class="modal modal-angular fade" id="modalUpdateComp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <form [formGroup]="formulary">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Editar Empresa</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div>
+                <div class="row">
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="recipient-name" class="col-form-label">Data Aqui</label>
+                                <input type="date" class="form-control" formControlName="boardingDate" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="recipient-name" class="col-form-label">Hora Aqui</label>
+                                <input type="time" class="form-control" formControlName="boardingTime" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="recipient-name" class="col-form-label">Destino por id</label>
+                                <input type="text" class="form-control" formControlName="destinyId" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="recipient-name" class="col-form-label">Passageiros</label>
+                                <input type="number" class="form-control" formControlName="passQtt" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="recipient-name" class="col-form-label">Tipo de onibus</label>
+                                <input type="text" class="form-control" formControlName="busId" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-info"  [disabled]="!formulary.valid" (click)="edit(company.id)">Editar</button>
+        </div>
+        </form>
+    </div>
+    </div>
+</div>
+
+<!-- Modal para excluir empresas -->
+
+<div class="modal fade" id="modalDelComp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Deletar </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        Tem certeza?
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="delete(company.id)" data-dismiss="modal">Apagar</button>
+        </div>
+    </div>
+</div>
