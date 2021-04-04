@@ -4,6 +4,7 @@ import { Page } from 'app/models/page';
 import { BusCategory, TravelMap, TravelMapNew } from 'app/models/travel-map.model';
 import { TravelMapService } from 'app/services/travel-map.service';
 import { LazyLoadEvent } from 'primeng/api';
+import { FilterUtils } from 'primeng/utils';
 
 @Component({
   selector: 'app-travel-map',
@@ -40,7 +41,19 @@ export class TravelMapComponent implements OnInit {
   @Output() public updateList: EventEmitter<any> = new EventEmitter<any>()
 
 
-  constructor(private travelMapService: TravelMapService) { }
+  constructor(private travelMapService: TravelMapService) { 
+    FilterUtils['custom-equals'] = (value, filter): boolean => {
+      if (filter === undefined || filter === null || filter.trim() === '') {
+          return true;
+      }
+
+      if (value === undefined || value === null) {
+          return false;
+      }
+      
+      return value.toString() === filter.toString();
+    }
+  }
 
   public listMaps(page: number, size: number, orderBy: string, direction: string){
     this.loading = true

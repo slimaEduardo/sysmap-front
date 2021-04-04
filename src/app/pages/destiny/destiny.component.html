@@ -8,9 +8,16 @@
                         <h4 class="card-title ">Destinos</h4>
                         <p class="card-category">Destinos habilitados para viagem</p>
                     </div>
-                    <div class="header">
+                    <div class="header">                        
                     </div>
-                        <p-table class="table table-hover table-striped" #dt1 [value]="destinies" [lazy]="true" [showCurrentPageReport]="true"  
+                    <div class="p-d-flex">
+                        <!-- <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button> -->
+                        <span class="p-input-icon-left p-ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                        </span>
+                    </div>
+                        <p-table #dt1 class="table table-hover table-striped" [value]="destinies" [lazy]="true" [showCurrentPageReport]="true"  
                         currentPageReportTemplate="Mostrando {first} a {last} de {{totalRecords}} resultados"
                         [rowsPerPageOptions]="[10,20,30]" (onLazyLoad)="paginate($event)"
                         [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [sortField]="orderBy"

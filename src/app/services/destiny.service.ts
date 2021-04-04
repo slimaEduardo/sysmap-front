@@ -9,6 +9,12 @@ import { map } from 'rxjs/operators'
 
 @Injectable()
 export class DestinyService{
+
+  listByname(name: any): Promise<Destiny[]>{
+    return this.http.get(`${API_CONFIG.baseUrl}/destinies/search?therm=${name}`)
+    .toPromise()
+    .then((response: Destiny[]) => response)
+  }
   delete(id: number) {
     return this.http.delete(`${API_CONFIG.baseUrl}/destinies/${id}`)
     .subscribe(response => {

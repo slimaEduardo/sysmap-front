@@ -1,10 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Company } from 'app/models/company.model';
 import { Destiny, DestinyNew, TypeLine } from 'app/models/destiny.model';
 import { Page } from 'app/models/page';
 import { DestinyService } from 'app/services/destiny.service';
 import { LazyLoadEvent } from 'primeng/api';
+
 
 @Component({
   selector: 'app-destiny',
@@ -57,13 +57,22 @@ export class DestinyComponent implements OnInit {
   }
 
   public paginate(event: LazyLoadEvent){
-    //console.log(event)
+    //Verifica se há algo no campo de pesquisa
+    if(event.globalFilter != null){
+      console.log("Chegamos aqui!", event.globalFilter)
+      this.destinyService.listByname(event.globalFilter)
+      .then(response => {
+        this.destinies = response
+        console.log(this.destinies)
+      })
+    }else{
+       //console.log(event)
     this.pageNumber = Math.floor(event.first/event.rows)
     this.orderBy = event.sortField
-    
+    //Define a ordem a qual a lista é apresentada
     var direction = event.sortOrder == -1 ? 'DESC' :  'ASC'
-    //console.log(this.pageNumber, event.rows, event.sortField, direction, event.globalFilter)
     this.listDestinies(this.pageNumber, event.rows, this.orderBy, direction)
+    }
     }
 
     public edit(id: number){
