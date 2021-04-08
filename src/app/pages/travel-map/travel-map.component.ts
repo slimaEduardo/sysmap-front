@@ -6,17 +6,17 @@ import { Page } from 'app/models/page';
 import { BusCategory, TravelMap, TravelMapNew } from 'app/models/travel-map.model';
 import { TravelMapService } from 'app/services/travel-map.service';
 import { LazyLoadEvent } from 'primeng/api';
-import { FilterUtils } from 'primeng/utils';
 import { Observable, Subject } from 'rxjs';
 import { catchError, debounce, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { DestinyService } from 'app/services/destiny.service';
+import { CompanyService } from 'app/services/company.service';
 
 
 @Component({
   selector: 'app-travel-map',
   templateUrl: './travel-map.component.html',
   styleUrls: ['./travel-map.component.css'],
-  providers: [TravelMapService, DestinyService]
+  providers: [TravelMapService, DestinyService, CompanyService]
 })
 export class TravelMapComponent implements OnInit {
 
@@ -50,18 +50,8 @@ export class TravelMapComponent implements OnInit {
   @Output() public updateList: EventEmitter<any> = new EventEmitter<any>()
 
 
-  constructor(private travelMapService: TravelMapService, private destinyService: DestinyService) { 
-    FilterUtils['custom-equals'] = (value, filter): boolean => {
-      if (filter === undefined || filter === null || filter.trim() === '') {
-          return true;
-      }
-
-      if (value === undefined || value === null) {
-          return false;
-      }
-      
-      return value.toString() === filter.toString();
-    }
+  constructor(private travelMapService: TravelMapService, private destinyService: DestinyService, private companyService: CompanyService) { 
+    
   }
 
   public listMaps(page: number, size: number, orderBy: string, direction: string){
@@ -124,14 +114,16 @@ export class TravelMapComponent implements OnInit {
       }
 
       public addObj(){
+        let aux: number = this.formulary.value.destinyId.id
+        this.formulary.patchValue({destinyId: aux})//corrige o valor do formulário no campo do destino
         console.log(this.formulary.value)
-        /* this.travelMapService.insert(this.formulary.value)
+        this.travelMapService.insert(this.formulary.value)
             .subscribe(response => {
               this.att()
             },
             error => {
               console.log(error)
-            }) */
+            })
       }
 
       public delete(id: number){
@@ -184,4 +176,8 @@ export class TravelMapComponent implements OnInit {
         console.log("Resultado: ",this.destinies)
      }
 
+     public getId(term: Event){
+       console.log(term)
+       this.formulary.patchValue({destinyId: term})
+      }
 }
