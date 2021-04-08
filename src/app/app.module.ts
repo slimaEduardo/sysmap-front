@@ -18,9 +18,7 @@ import { IconsComponent } from './icons/icons.component';
 import { MapsComponent } from './maps/maps.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { UpgradeComponent } from './upgrade/upgrade.component';
-import {
-  AgmCoreModule
-} from '@agm/core';
+import { AgmCoreModule } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { CompanyComponent } from './pages/company/company.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
@@ -31,6 +29,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DestinyComponent } from './pages/destiny/destiny.component';
 import {DropdownModule} from 'primeng/dropdown';
 import { TravelMapComponent } from './pages/travel-map/travel-map.component';
+import {ListboxModule} from 'primeng/listbox';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 
 @NgModule({
   imports: [
@@ -46,6 +48,10 @@ import { TravelMapComponent } from './pages/travel-map/travel-map.component';
     InputTextModule,
     DropdownModule,
     AppRoutingModule,
+    ListboxModule,
+    AutoCompleteModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     })

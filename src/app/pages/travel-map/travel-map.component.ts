@@ -1,16 +1,22 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { of } from 'rxjs';
+import { Destiny } from 'app/models/destiny.model';
 import { Page } from 'app/models/page';
 import { BusCategory, TravelMap, TravelMapNew } from 'app/models/travel-map.model';
 import { TravelMapService } from 'app/services/travel-map.service';
 import { LazyLoadEvent } from 'primeng/api';
 import { FilterUtils } from 'primeng/utils';
+import { Observable, Subject } from 'rxjs';
+import { catchError, debounce, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { DestinyService } from 'app/services/destiny.service';
+
 
 @Component({
   selector: 'app-travel-map',
   templateUrl: './travel-map.component.html',
   styleUrls: ['./travel-map.component.css'],
-  providers: [TravelMapService]
+  providers: [TravelMapService, DestinyService]
 })
 export class TravelMapComponent implements OnInit {
 
@@ -38,10 +44,13 @@ export class TravelMapComponent implements OnInit {
   public globalFilter: string = ""
   public busCategories: BusCategory[] = []
 
+  private subjectSearch: Subject<string> = new Subject<string>()
+  public destinies: Destiny[] = []
+
   @Output() public updateList: EventEmitter<any> = new EventEmitter<any>()
 
 
-  constructor(private travelMapService: TravelMapService) { 
+  constructor(private travelMapService: TravelMapService, private destinyService: DestinyService) { 
     FilterUtils['custom-equals'] = (value, filter): boolean => {
       if (filter === undefined || filter === null || filter.trim() === '') {
           return true;
@@ -69,7 +78,22 @@ export class TravelMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.listMaps(this.pageNumber, this.pageSize, this.orderBy, this.direction)
+    
     this.listCategories()
+
+   /*  this.destinies = this.subjectSearch.pipe(debounceTime (100),
+        distinctUntilChanged(),
+        switchMap((term: string) => {console.log(term)
+        if(term.trim() == ''){
+          return of<Destiny[]>([]); //retorna um array vazio
+        }
+        return this.destinyService.listByname(term)
+        })),
+        catchError((error) => {
+          console.log(error)
+          return of<Destiny[]>([])
+        }) */
+   
   }
 
   public paginate(event: LazyLoadEvent){
@@ -146,5 +170,18 @@ export class TravelMapComponent implements OnInit {
           //console.log(this.typeLines)
         })
       }
+
+      public listDestinies(name: string){
+        
+      }
+
+     public searchDestiny(searchTerm: string){
+        console.log(searchTerm)
+       this.destinyService.listByname(searchTerm)
+       .then((resp: Destiny[]) => {
+         this.destinies = resp
+       })
+        console.log("Resultado: ",this.destinies)
+     }
 
 }
