@@ -9,6 +9,13 @@ import { map } from 'rxjs/operators'
 
 @Injectable()
 export class CompanyService{
+
+
+  listByname(name: string): Promise<Company[]>{
+    return this.http.get(`${API_CONFIG.baseUrl}/companies/search?term=${name}`)
+    .toPromise()
+    .then((response: Company[]) => response)
+  }
   delete(id: number) {
     return this.http.delete(`${API_CONFIG.baseUrl}/companies/${id}`)
     .subscribe(response => {

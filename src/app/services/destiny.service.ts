@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators'
 export class DestinyService{
 
   listByname(name: any): Promise<Destiny[]>{
-    return this.http.get(`${API_CONFIG.baseUrl}/destinies/search?therm=${name}`)
+    return this.http.get(`${API_CONFIG.baseUrl}/destinies/search?term=${name}`)
     .toPromise()
     .then((response: Destiny[]) => response)
   }

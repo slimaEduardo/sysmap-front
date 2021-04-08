@@ -19,12 +19,12 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th pSortableColumn='id'>Id<p-sortIcon field="id"></p-sortIcon></th>
-                                <th pSortableColumn='name'>Destino<p-sortIcon field="name"></p-sortIcon></th>
-                                <th pSortableColumn='name'>Data<p-sortIcon field="name"></p-sortIcon></th>
-                                <th pSortableColumn='name'>Hora<p-sortIcon field="name"></p-sortIcon></th>
-                                <th pSortableColumn='name'>Empresa<p-sortIcon field="name"></p-sortIcon></th>
-                                <th pSortableColumn='name'>Categoria<p-sortIcon field="name"></p-sortIcon></th>
-                                <th pSortableColumn='name'>Passageiros<p-sortIcon field="name"></p-sortIcon></th>
+                                <th pSortableColumn='destinyName'>Destino<p-sortIcon field="destinyName"></p-sortIcon></th>
+                                <th pSortableColumn='boardingDate'>Data<p-sortIcon field="boardingDate"></p-sortIcon></th>
+                                <th pSortableColumn='boardingTime'>Hora<p-sortIcon field="boardingTime"></p-sortIcon></th>
+                                <th pSortableColumn='companyName'>Empresa<p-sortIcon field="companyName"></p-sortIcon></th>
+                                <th pSortableColumn='busCategory'>Categoria<p-sortIcon field="busCategory"></p-sortIcon></th>
+                                <th pSortableColumn='passQtt'>Passageiros<p-sortIcon field="passQtt"></p-sortIcon></th>
                                 <th>Ações</th>
                             </tr>
                         </ng-template>
@@ -102,7 +102,9 @@
                    
                         <div class="col-sm-6">
                             <label for="recipient-name" class="col-form-label">Empresa</label>
-                            <input type="text" class="form-control" formControlName="companyId" required>
+                            <p-autoComplete formControlName="companyId" [suggestions]="companies" 
+                                (completeMethod)="searchCompany($event.query)" field="name">
+                        </p-autoComplete>
                         </div>
                     </div>
                 </div>

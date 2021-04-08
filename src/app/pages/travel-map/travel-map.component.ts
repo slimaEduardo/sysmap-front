@@ -10,6 +10,7 @@ import { Observable, Subject } from 'rxjs';
 import { catchError, debounce, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { DestinyService } from 'app/services/destiny.service';
 import { CompanyService } from 'app/services/company.service';
+import { Company } from 'app/models/company.model';
 
 
 @Component({
@@ -46,8 +47,10 @@ export class TravelMapComponent implements OnInit {
 
   private subjectSearch: Subject<string> = new Subject<string>()
   public destinies: Destiny[] = []
+  companies: Company[];
 
   @Output() public updateList: EventEmitter<any> = new EventEmitter<any>()
+  
 
 
   constructor(private travelMapService: TravelMapService, private destinyService: DestinyService, private companyService: CompanyService) { 
@@ -116,6 +119,8 @@ export class TravelMapComponent implements OnInit {
       public addObj(){
         let aux: number = this.formulary.value.destinyId.id
         this.formulary.patchValue({destinyId: aux})//corrige o valor do formulário no campo do destino
+        aux = this.formulary.value.companyId.id
+        this.formulary.patchValue({companyId: aux})
         console.log(this.formulary.value)
         this.travelMapService.insert(this.formulary.value)
             .subscribe(response => {
@@ -175,6 +180,15 @@ export class TravelMapComponent implements OnInit {
        })
         console.log("Resultado: ",this.destinies)
      }
+
+     public searchCompany(searchTerm: string){
+      console.log(searchTerm)
+     this.companyService.listByname(searchTerm)
+     .then((resp: Company[]) => {
+       this.companies = resp
+     })
+      console.log("Resultado: ",this.companies)
+   }
 
      public getId(term: Event){
        console.log(term)
