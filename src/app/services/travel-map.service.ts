@@ -28,8 +28,8 @@ export class TravelMapService{
     
     constructor(public http: HttpClient){}
 
-    public getCompanies(page: number, linesPerPage: number, orderBy: string, direction: string): Observable<Page>{
-    return this.http.get<Page>(`${API_CONFIG.baseUrl}/maps?page=${page}&linesPerPage=${linesPerPage}&orderBy=${orderBy}&direction=${direction}`)
+    public getMaps(): Observable<TravelMap[]>{
+    return this.http.get<TravelMap[]>(`${API_CONFIG.baseUrl}/maps`)
 }  
 
 public insert(obj: TravelMapNew){

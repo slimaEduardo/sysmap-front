@@ -44,6 +44,8 @@ export class TravelMapComponent implements OnInit {
   public  loading: boolean
   public globalFilter: string = ""
   public busCategories: BusCategory[] = []
+  public destinyName: string
+  public companyName: string
 
   private subjectSearch: Subject<string> = new Subject<string>()
   public destinies: Destiny[] = []
@@ -57,62 +59,56 @@ export class TravelMapComponent implements OnInit {
     
   }
 
-  public listMaps(page: number, size: number, orderBy: string, direction: string){
+  public listMaps(){
     this.loading = true
-    this.travelMapService.getCompanies(page, size, orderBy, direction)
+    this.travelMapService.getMaps()
     .subscribe(response => {
-      this.page = response
-      this.totalRecords = this.page.totalElements
-      this.travelMaps = response.content
-      //console.log(this.destinies)
+      this.travelMaps = response
+      console.log(this.travelMaps)
       this.loading = false
     })
   }
 
   ngOnInit(): void {
-    this.listMaps(this.pageNumber, this.pageSize, this.orderBy, this.direction)
+    this.listMaps()
     
     this.listCategories()
 
-   /*  this.destinies = this.subjectSearch.pipe(debounceTime (100),
-        distinctUntilChanged(),
-        switchMap((term: string) => {console.log(term)
-        if(term.trim() == ''){
-          return of<Destiny[]>([]); //retorna um array vazio
-        }
-        return this.destinyService.listByname(term)
-        })),
-        catchError((error) => {
-          console.log(error)
-          return of<Destiny[]>([])
-        }) */
-   
   }
 
-  public paginate(event: LazyLoadEvent){
+  /* public paginate(event: LazyLoadEvent){
     //console.log(event)
     this.pageNumber = Math.floor(event.first/event.rows)
     this.orderBy = event.sortField
     
     var direction = event.sortOrder == -1 ? 'DESC' :  'ASC'
     //console.log(this.pageNumber, event.rows, event.sortField, direction, event.globalFilter)
-    this.listMaps(this.pageNumber, event.rows, this.orderBy, direction)
-    }
+    this.listMaps()
+    } */
 
     public edit(id: number){
-      //console.log("editar", id)
+       console.log(this.formulary.value.destinyId.id)
+       if(this.formulary.value.destinyId.id !== undefined){
+      let aux1: number = this.formulary.value.destinyId.id
+      this.formulary.patchValue({destinyId: aux1})
+       }
+       if(this.formulary.value.companyId.id !== undefined){
+      let aux2 = this.formulary.value.companyId.id
+      this.formulary.patchValue({companyId: aux2})
+       }
       let aux: TravelMapNew
       aux = this.formulary.value
-      this.travelMapService.update(id,aux)
-      this.updateList.emit(this.att())
+      console.log(aux, "ID: ",this.formulary.value.id)
+      this.travelMapService.update(this.formulary.value.id,aux)
+      this.updateList.emit(this.att()) 
     }
 
     public att() {
-      this.listMaps(this.pageNumber, this.pageSize, this.orderBy, this.direction) // para atualizar o dados do array
+      this.listMaps() // para atualizar o dados do array
         this.show = false // tirar tabela do DOM
           setTimeout(() => {
             this.show = true // retorna com tabela para o DOM e os dados atualizados do
-            this.listMaps(this.pageNumber, this.pageSize, this.orderBy, this.direction)
+            this.listMaps()
           }, 50);
       }
 
@@ -131,8 +127,9 @@ export class TravelMapComponent implements OnInit {
             })
       }
 
-      public delete(id: number){
-        this.travelMapService.delete(id)
+      public delete(){
+        console.log("ID: ", this.formulary.value.id)
+        this.travelMapService.delete(this.formulary.value.id)
         this.att()
       }
     
@@ -144,12 +141,14 @@ export class TravelMapComponent implements OnInit {
         this.travelMapService.findById(id).subscribe(response => {
           console.log(response)
           this.travelMap = response
+          this.destinyName = this.travelMap.destiny.name
+          this.companyName = this.travelMap.company.name
           this.formulary = new FormGroup({
             id: new FormControl(this.travelMap.id),
             boardingDate: new FormControl(this.travelMap.boardingDate),
             boardingTime: new FormControl(this.travelMap.boardingTime),
-            companyId: new FormControl(this.travelMap.companyName , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')]),
-            destinyId: new FormControl(this.travelMap.destinyName , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')]),
+            companyId: new FormControl(this.travelMap.company.id , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')]),
+            destinyId: new FormControl(this.travelMap.destiny.id, [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')]),
             passQtt: new FormControl(this.travelMap.passQtt, [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')]),
             busId: new FormControl(this.travelMap.busCategory.id , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')])
           })

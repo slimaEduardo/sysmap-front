@@ -1,11 +1,13 @@
 import { Time } from "@angular/common";
+import { Company } from "./company.model";
+import { Destiny } from "./destiny.model";
 
 export interface TravelMap{
     id: number
-    companyName: string
+    company: Company
     boardingDate: Date
     boardingTime: Time
-    destinyName: string,
+    destiny: Destiny
     passQtt: number
     busCategory: BusCategory
 }
