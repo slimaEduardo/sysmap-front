@@ -6,6 +6,8 @@ import { Page } from 'app/models/page';
 import { CompanyService } from 'app/services/company.service';
 import { LazyLoadEvent } from 'primeng/api';
 
+declare var $: any;
+
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
@@ -29,7 +31,7 @@ export class CompanyComponent implements OnInit {
   public pageSize = 10
   public orderBy = 'id'
   public totalRecords: number
-  public direction: string = 'ASC'
+  public direction: string = 'DESC'
   public  loading: boolean
   public globalFilter: string = ""
 
@@ -50,7 +52,7 @@ export class CompanyComponent implements OnInit {
     .subscribe(response => {
       this.page = response
       this.totalRecords = this.page.totalElements
-      console.log(this.totalRecords)
+      //console.log(this.totalRecords)
       this.companies = response.content
       this.loading = false
     })
@@ -59,20 +61,24 @@ export class CompanyComponent implements OnInit {
   public addCmp(){
     this.companyService.insert(this.formulary.value)
         .subscribe(response => {
+          console.log(response)
+          //let _comp: Company = response.body.valueOf()
+          this.showNotification(`Empresa criada com suecesso`, 'success')
           this.att()
         },
         error => {
           console.log(error)
         })
+        $('#modalAddComp').modal('hide')
   }
 
   public paginate(event: LazyLoadEvent){
-  console.log(event)
+  //console.log(event)
   this.pageNumber = Math.floor(event.first/event.rows)
   this.orderBy = event.sortField
   
   var direction = event.sortOrder == -1 ? 'DESC' :  'ASC'
-  console.log(this.pageNumber, event.rows, event.sortField, direction, event.globalFilter)
+  //console.log(this.pageNumber, event.rows, event.sortField, direction, event.globalFilter)
   this.listCompanies(this.pageNumber, event.rows, this.orderBy, direction)
   if(event.globalFilter != null){
     console.log("chegamos aqui!")
@@ -80,15 +86,30 @@ export class CompanyComponent implements OnInit {
   }
 
   public edit(id: number){
-    console.log("editar", id)
+    //console.log("editar", id)
     let aux: Company
     aux = this.formulary.value
     this.companyService.update(id,aux)
+    .subscribe(response => {
+      console.log(response)
+      this.showNotification("Empresa editada com suecesso", 'success')
+    },
+    error => {
+      console.log(error)
+    })
+    $('#modalUpdateComp').modal('hide')
     this.updateList.emit(this.att())
   }
 
   public delete(id: number){
-    this.companyService.delete(id)
+    this.companyService.delete(id).subscribe(response => {
+      console.log(response)
+      this.showNotification("Empresa excluída com suecesso", 'success')
+    },
+    error => {
+      console.log("Erro: ",error.error.msg)
+      this.showNotification( error.error.msg, 'danger')
+    })
     this.att()
   }
 
@@ -118,6 +139,35 @@ export class CompanyComponent implements OnInit {
       })
         
     }
+
+    showNotification(message: string, color: string){
+      //const type = ['','info','success','warning','danger'];
+
+      //const color = Math.floor((Math.random() * 4) + 1);
+
+      $.notify({
+          icon: "notifications",
+          message: message
+
+      },{
+          type: color,
+          timer: 2000,
+          placement: {
+              from: 'top',
+              align: 'center'
+          },
+          template: '<div data-notify="container" class="col-xl-4 col-lg-4 col-11 col-sm-4 col-md-4 alert alert-{0} alert-with-icon" role="alert">' +
+            '<button mat-button  type="button" aria-hidden="true" class="close mat-button" data-notify="dismiss">  <i class="material-icons">close</i></button>' +
+            '<i class="material-icons" data-notify="icon">notifications</i> ' +
+            '<span data-notify="title">{1}</span> ' +
+            '<span data-notify="message">{2}</span>' +
+            '<div class="progress" data-notify="progressbar">' +
+              '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+            '</div>' +
+            '<a href="{3}" target="{4}" data-notify="url"></a>' +
+          '</div>'
+      });
+  }
 
 }
 

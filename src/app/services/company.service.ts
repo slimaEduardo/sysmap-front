@@ -17,16 +17,19 @@ export class CompanyService{
     .then((response: Company[]) => response)
   }
   delete(id: number) {
-    return this.http.delete(`${API_CONFIG.baseUrl}/companies/${id}`)
-    .subscribe(response => {
-      
+    return this.http.delete(`${API_CONFIG.baseUrl}/companies/${id}`,{
+      observe: 'response',
+      responseType: 'json'
     })
+    
   }
 
   update(id: number, aux: Company) {
-    return this.http.put(`${API_CONFIG.baseUrl}/companies/${id}`, aux)
-    .subscribe(response => {
-     }, error => {console.log(error)})
+    aux.name = aux.name.toUpperCase()
+    return this.http.put(`${API_CONFIG.baseUrl}/companies/${id}`, aux,{
+      observe: 'response',
+      responseType: 'json'
+    });
   }
 
   findById(id: number) {
@@ -40,10 +43,11 @@ export class CompanyService{
 }  
 
 public insert(obj: Company){
+  obj.name = obj.name.toUpperCase()
     return this.http.post(`${API_CONFIG.baseUrl}/companies`,obj,
     {
       observe: 'response',
-      responseType: 'text'
+      responseType: 'json'
     });
   }
 
