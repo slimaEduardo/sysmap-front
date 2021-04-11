@@ -8,18 +8,23 @@ import { Observable } from "rxjs";
 @Injectable()
 export class TravelMapService{
   delete(id: number) {
-    return this.http.delete(`${API_CONFIG.baseUrl}/maps/${id}`)
-    .subscribe(response => {
-      
-    })
+    return this.http.delete(`${API_CONFIG.baseUrl}/maps/${id}`,
+    {
+      observe: 'response',
+      responseType: 'text'
+    });
+    
   }
 
   update(id: number, aux: TravelMapNew) {
     
     console.log(aux)
-    return this.http.put(`${API_CONFIG.baseUrl}/maps/${id}`, aux)
-    .subscribe(response => {
-     }, error => {console.log(error)})
+    return this.http.put(`${API_CONFIG.baseUrl}/maps/${id}`, aux,
+    {
+      observe: 'response',
+      responseType: 'text'
+    });
+    
   }
 
   findById(id: number) {

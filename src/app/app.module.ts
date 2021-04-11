@@ -33,6 +33,7 @@ import {ListboxModule} from 'primeng/listbox';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {AutoCompleteModule} from 'primeng/autocomplete';
+import { NotificationService } from './services/notification.service';
 
 @NgModule({
   imports: [
@@ -65,7 +66,7 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
     TravelMapComponent,
 
   ],
-  providers: [],
+  providers: [NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

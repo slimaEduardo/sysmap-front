@@ -3,8 +3,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Destiny, DestinyNew, TypeLine } from 'app/models/destiny.model';
 import { Page } from 'app/models/page';
 import { DestinyService } from 'app/services/destiny.service';
+import { NotificationService } from 'app/services/notification.service';
 import { LazyLoadEvent } from 'primeng/api';
 
+declare var $: any;
 
 @Component({
   selector: 'app-destiny',
@@ -30,14 +32,14 @@ export class DestinyComponent implements OnInit {
   public pageSize = 10
   public orderBy = 'id'
   public totalRecords: number
-  public direction: string = 'ASC'
+  public direction: string = 'DESC'
   public  loading: boolean
   public globalFilter: string = ""
   public typeLines: TypeLine[] = []
 
   @Output() public updateList: EventEmitter<any> = new EventEmitter<any>()
 
-  constructor(private destinyService: DestinyService) { }
+  constructor(private destinyService: DestinyService, private notificationService: NotificationService) { }
 
   public listDestinies(page: number, size: number, orderBy: string, direction: string){
     this.loading = true
@@ -79,7 +81,14 @@ export class DestinyComponent implements OnInit {
       //console.log("editar", id)
       let aux: DestinyNew
       aux = this.formulary.value
-      this.destinyService.update(id,aux)
+      this.destinyService.update(id,aux).subscribe(response => {
+        console.log(response)
+        this.notificationService.showNotification("Destino editado com suecesso", 'success', 'top')
+      },
+      error => {
+        console.log(error)
+      })
+      $('#modalUpdate').modal('hide')
       this.updateList.emit(this.att())
     }
 
@@ -96,20 +105,30 @@ export class DestinyComponent implements OnInit {
         console.log(this.formulary.value)
         this.destinyService.insert(this.formulary.value)
             .subscribe(response => {
+              console.log(response)
+              this.notificationService.showNotification(`${this.formulary.value.name} criado com suecesso com o id ${response.body}`, 'success', 'top')
               this.att()
             },
             error => {
               console.log(error)
             })
+            $('#modalAdd').modal('hide')
       }
 
       public delete(id: number){
-        this.destinyService.delete(id)
+        this.destinyService.delete(id).subscribe(response => {
+          console.log(response)
+          this.notificationService.showNotification("Destino excluído com suecesso", 'success','top')
+        },
+        error => {
+          console.log("Erro: ",error.error.msg)
+          this.notificationService.showNotification( error.error.msg, 'danger','top')
+        })
         this.att()
       }
     
       public resetFormulary(){
-        this.formulary.reset()
+      this.formulary.reset()
       }
 
       public listObj(id: number){

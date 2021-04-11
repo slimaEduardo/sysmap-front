@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Company } from 'app/models/company.model';
 import { Page } from 'app/models/page';
 import { CompanyService } from 'app/services/company.service';
+import { NotificationService } from 'app/services/notification.service';
 import { LazyLoadEvent } from 'primeng/api';
 
 declare var $: any;
@@ -37,7 +38,7 @@ export class CompanyComponent implements OnInit {
 
   @Output() public updateList: EventEmitter<any> = new EventEmitter<any>()
   
-  constructor(private companyService:CompanyService) { 
+  constructor(private companyService:CompanyService, private notificationService: NotificationService) { 
     
   }
 
@@ -63,7 +64,7 @@ export class CompanyComponent implements OnInit {
         .subscribe(response => {
           console.log(response)
           //let _comp: Company = response.body.valueOf()
-          this.showNotification(`Empresa criada com suecesso`, 'success')
+          this.notificationService.showNotification(`Empresa criada com suecesso`, 'success','top')
           this.att()
         },
         error => {
@@ -92,7 +93,7 @@ export class CompanyComponent implements OnInit {
     this.companyService.update(id,aux)
     .subscribe(response => {
       console.log(response)
-      this.showNotification("Empresa editada com suecesso", 'success')
+      this.notificationService.showNotification("Empresa editada com suecesso", 'success','top')
     },
     error => {
       console.log(error)
@@ -104,11 +105,11 @@ export class CompanyComponent implements OnInit {
   public delete(id: number){
     this.companyService.delete(id).subscribe(response => {
       console.log(response)
-      this.showNotification("Empresa excluída com suecesso", 'success')
+      this.notificationService.showNotification("Empresa excluída com suecesso", 'success','top')
     },
     error => {
       console.log("Erro: ",error.error.msg)
-      this.showNotification( error.error.msg, 'danger')
+      this.notificationService.showNotification( error.error.msg, 'danger','top')
     })
     this.att()
   }
@@ -139,35 +140,5 @@ export class CompanyComponent implements OnInit {
       })
         
     }
-
-    showNotification(message: string, color: string){
-      //const type = ['','info','success','warning','danger'];
-
-      //const color = Math.floor((Math.random() * 4) + 1);
-
-      $.notify({
-          icon: "notifications",
-          message: message
-
-      },{
-          type: color,
-          timer: 2000,
-          placement: {
-              from: 'top',
-              align: 'center'
-          },
-          template: '<div data-notify="container" class="col-xl-4 col-lg-4 col-11 col-sm-4 col-md-4 alert alert-{0} alert-with-icon" role="alert">' +
-            '<button mat-button  type="button" aria-hidden="true" class="close mat-button" data-notify="dismiss">  <i class="material-icons">close</i></button>' +
-            '<i class="material-icons" data-notify="icon">notifications</i> ' +
-            '<span data-notify="title">{1}</span> ' +
-            '<span data-notify="message">{2}</span>' +
-            '<div class="progress" data-notify="progressbar">' +
-              '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-            '</div>' +
-            '<a href="{3}" target="{4}" data-notify="url"></a>' +
-          '</div>'
-      });
-  }
-
 }
 

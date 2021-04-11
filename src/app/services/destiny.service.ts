@@ -16,18 +16,21 @@ export class DestinyService{
     .then((response: Destiny[]) => response)
   }
   delete(id: number) {
-    return this.http.delete(`${API_CONFIG.baseUrl}/destinies/${id}`)
-    .subscribe(response => {
-      
+    return this.http.delete(`${API_CONFIG.baseUrl}/destinies/${id}`,{
+      observe: 'response',
+      responseType: 'json'
     })
+    
   }
 
   update(id: number, aux: DestinyNew) {
     aux.name = aux.name.toUpperCase()
     console.log(aux)
-    return this.http.put(`${API_CONFIG.baseUrl}/destinies/${id}`, aux)
-    .subscribe(response => {
-     }, error => {console.log(error)})
+    return this.http.put(`${API_CONFIG.baseUrl}/destinies/${id}`, aux,{
+      observe: 'response',
+      responseType: 'json'
+    })
+    
   }
 
   findById(id: number) {

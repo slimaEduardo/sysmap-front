@@ -11,7 +11,9 @@ import { catchError, debounce, debounceTime, distinctUntilChanged, switchMap } f
 import { DestinyService } from 'app/services/destiny.service';
 import { CompanyService } from 'app/services/company.service';
 import { Company } from 'app/models/company.model';
+import { NotificationService } from 'app/services/notification.service';
 
+declare var $: any;
 
 @Component({
   selector: 'app-travel-map',
@@ -55,7 +57,10 @@ export class TravelMapComponent implements OnInit {
   
 
 
-  constructor(private travelMapService: TravelMapService, private destinyService: DestinyService, private companyService: CompanyService) { 
+  constructor(private travelMapService: TravelMapService, 
+              private destinyService: DestinyService, 
+              private companyService: CompanyService,
+              private notificationService: NotificationService) { 
     
   }
 
@@ -87,20 +92,28 @@ export class TravelMapComponent implements OnInit {
     } */
 
     public edit(id: number){
-       console.log(this.formulary.value.destinyId.id)
-       if(this.formulary.value.destinyId.id !== undefined){
+      console.log(this.formulary.value.destinyId.id)
+      if(this.formulary.value.destinyId.id !== undefined){
       let aux1: number = this.formulary.value.destinyId.id
       this.formulary.patchValue({destinyId: aux1})
-       }
-       if(this.formulary.value.companyId.id !== undefined){
+      }
+      if(this.formulary.value.companyId.id !== undefined){
       let aux2 = this.formulary.value.companyId.id
       this.formulary.patchValue({companyId: aux2})
-       }
+      }
       let aux: TravelMapNew
       aux = this.formulary.value
       console.log(aux, "ID: ",this.formulary.value.id)
       this.travelMapService.update(this.formulary.value.id,aux)
-      this.updateList.emit(this.att()) 
+      .subscribe(response => {
+        console.log(response)
+        this.notificationService.showNotification("Mapa editado com suecesso", 'success', 'top')
+      },
+      error => {
+        console.log(error)
+      })
+      $('#modalUpdateComp').modal('hide')
+      this.updateList.emit(this.att())
     }
 
     public att() {
@@ -119,17 +132,28 @@ export class TravelMapComponent implements OnInit {
         this.formulary.patchValue({companyId: aux})
         console.log(this.formulary.value)
         this.travelMapService.insert(this.formulary.value)
-            .subscribe(response => {
-              this.att()
-            },
-            error => {
-              console.log(error)
-            })
+        .subscribe(response => {
+          console.log(response)
+          this.notificationService.showNotification("Mapa criado com suecesso", 'success', 'bottom')
+        },
+        error => {
+          console.log(error)
+        })
+        
+        this.updateList.emit(this.att())
       }
 
       public delete(){
         console.log("ID: ", this.formulary.value.id)
         this.travelMapService.delete(this.formulary.value.id)
+        .subscribe(response => {
+          console.log(response)
+          this.notificationService.showNotification("Mapa excluído com suecesso", 'success','top')
+        },
+        error => {
+          console.log("Erro: ",error.error.msg)
+          this.notificationService.showNotification( error.error.msg, 'danger','top')
+        })
         this.att()
       }
     
