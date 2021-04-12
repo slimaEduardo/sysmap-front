@@ -19,7 +19,7 @@ export class DestinyComponent implements OnInit {
   public formulary: FormGroup = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('' , [Validators.required, Validators.minLength(5), Validators.maxLength(40)]),
-    distance: new FormControl('' , [Validators.required, Validators.minLength(2), Validators.maxLength(5), Validators.pattern('[0-9]')]),
+    distance: new FormControl('' , [Validators.required, Validators.minLength(2), Validators.maxLength(5)]),
     categoryId: new FormControl('' , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')])
     })
 
@@ -138,7 +138,7 @@ export class DestinyComponent implements OnInit {
           this.formulary = new FormGroup({
             id: new FormControl(this.destiny.id),
             name: new FormControl(this.destiny.name, [Validators.required, Validators.minLength(5), Validators.maxLength(40)]),
-            distance: new FormControl(this.destiny.distance,[Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')]),
+            distance: new FormControl(this.destiny.distance,[Validators.required, Validators.minLength(2), Validators.maxLength(3)]),
             categoryId: new FormControl(this.destiny.category.id , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')])
           })
         },

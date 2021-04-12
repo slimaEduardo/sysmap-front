@@ -74,23 +74,26 @@
                         <div class="col-sm-12">
                             <label for="recipient-name" class="col-form-label">Nome da cidade</label>
                             <input type="text" class="form-control" formControlName="name" required>
+                            <small *ngIf="formulary.get('name').invalid && formulary.get('name').touched" class="form-text text-danger">Nome inválido</small>
                         </div>
                         <div class="col-sm-6">
                             <label for="recipient-name" class="col-form-label">Distância (em Km)</label>
-                            <input type="number" class="form-control" formControlName="distance" required>
+                            <input type="number" min="1"  pattern="\d+" class="form-control" formControlName="distance" required>
+                            <small *ngIf="formulary.get('distance').invalid && formulary.get('distance').touched" class="form-text text-danger">Distância inválida</small>
                         </div>
                         <div class="col-sm-6">
                             <label for="recipient-name" class="col-form-label">Tipo de Linha</label>
                             <select class="custom-select"  formControlName="categoryId" required>
                             <option *ngFor="let typeLine of typeLines" [ngValue]="typeLine.id">{{ typeLine.name }}</option>
-                            </select>                            
+                            </select>
+                            <small *ngIf="formulary.get('categoryId').invalid && formulary.get('categoryId').touched" class="form-text text-danger">Escolha o tipo de linha</small>                           
                         </div>
                     </div>
                 </div>
         </div>
         <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-info" >Adicionar</button>
+        <button type="submit" class="btn btn-info" [disabled]="!formulary.valid">Adicionar</button>
         </div>
     </form>
     </div>
@@ -117,23 +120,26 @@
                     <div class="col-sm-12">
                         <label for="recipient-name" class="col-form-label">Nome da Cidade</label>
                         <input type="text" class="form-control" data-whatever="destiny.name" placeholder="Nome do Destino" formControlName="name" required>
+                        <small *ngIf="formulary.get('name').invalid && formulary.get('name').touched" class="form-text text-danger">Nome inválido</small>
                     </div>
                     <div class="col-sm-6">
                         <label for="recipient-name" class="col-form-label">Distância (em Km)</label>
-                        <input type="number" class="form-control" data-whatever="destiny.distance" placeholder="Distância" formControlName="distance" required>
+                        <input type="number" min="1"  pattern="\d+" class="form-control" data-whatever="destiny.distance" placeholder="Distância" formControlName="distance" required>
+                        <small *ngIf="formulary.get('distance').invalid && formulary.get('distance').touched" class="form-text text-danger">Distância inválida</small>
                     </div>
                     <div class="col-sm-6">
                         <label for="recipient-name" class="col-form-label">Tipo de Linha</label>
                             <select  class="custom-select" id="categoryId" formControlName="categoryId" required>
                             <option *ngFor="let typeLine of typeLines" [value]="typeLine.id">{{ typeLine.name }}</option>
-                        </select> 
+                        </select>
+                        <small *ngIf="formulary.get('categoryId').invalid && formulary.get('categoryId').touched" class="form-text text-danger">Escolha o tipo de linha</small>  
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-info" (click)="edit(destiny.id)">Editar</button>
+            <button type="submit" class="btn btn-info" (click)="edit(destiny.id)" [disabled]="!formulary.valid">Editar</button>
         </div>
         </form>
     </div>

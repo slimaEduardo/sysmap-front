@@ -27,10 +27,10 @@ export class TravelMapComponent implements OnInit {
     id: new FormControl(''),
     boardingDate: new FormControl(''),
     boardingTime: new FormControl(''),
-    companyId: new FormControl('' , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')]),
-    destinyId: new FormControl('' , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')]),
-    passQtt: new FormControl('' , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')]),
-    busId: new FormControl('' , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')])
+    companyId: new FormControl('' , [Validators.required]),
+    destinyId: new FormControl('' , [Validators.required]),
+    passQtt: new FormControl('' , [Validators.required, Validators.minLength(1), Validators.maxLength(3)]),
+    busId: new FormControl('' , [Validators.required])
     })
 
   public travelMaps: any[] = []
@@ -111,6 +111,7 @@ export class TravelMapComponent implements OnInit {
       },
       error => {
         console.log(error)
+        this.notificationService.showNotification(`Revise as opções inseridas. ${error.name}`, 'danger', 'bottom')
       })
       $('#modalUpdateComp').modal('hide')
       this.updateList.emit(this.att())
@@ -138,6 +139,7 @@ export class TravelMapComponent implements OnInit {
         },
         error => {
           console.log(error)
+          this.notificationService.showNotification(`Revise as opções inseridas. ${error.name}`, 'danger', 'bottom')//Fazer a API retornar os erros
         })
         
         this.updateList.emit(this.att())
@@ -171,10 +173,10 @@ export class TravelMapComponent implements OnInit {
             id: new FormControl(this.travelMap.id),
             boardingDate: new FormControl(this.travelMap.boardingDate),
             boardingTime: new FormControl(this.travelMap.boardingTime),
-            companyId: new FormControl(this.travelMap.company.id , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')]),
-            destinyId: new FormControl(this.travelMap.destiny.id, [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')]),
-            passQtt: new FormControl(this.travelMap.passQtt, [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')]),
-            busId: new FormControl(this.travelMap.busCategory.id , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')])
+            companyId: new FormControl(this.travelMap.company.id , [Validators.required]),
+            destinyId: new FormControl(this.travelMap.destiny.id, [Validators.required]),
+            passQtt: new FormControl(this.travelMap.passQtt, [Validators.required]),
+            busId: new FormControl(this.travelMap.busCategory.id , [Validators.required])
           })
         },
         error => {

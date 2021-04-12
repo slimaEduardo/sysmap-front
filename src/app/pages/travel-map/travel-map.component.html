@@ -53,7 +53,7 @@
     </div>
 </div>
 
- <!-- Modal para inserir Empresa -->
+ <!-- Modal para inserir Mapa -->
 
  <div class="modal modal-angular fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -72,10 +72,12 @@
                         <div class="col-sm-6">
                             <label for="recipient-name" class="col-form-label">Data</label>
                             <input type="date" class="form-control" formControlName="boardingDate" required>
+                            <small *ngIf="formulary.get('boardingDate').invalid && formulary.get('boardingDate').touched" class="form-text text-danger">Data inválida</small>
                         </div>
                         <div class="col-sm-6">
                             <label for="recipient-name" class="col-form-label">Hora</label>
                             <input type="time" class="form-control" formControlName="boardingTime" required>
+                            <small *ngIf="formulary.get('boardingTime').invalid && formulary.get('boardingTime').touched" class="form-text text-danger">Hora inválida</small>
                         </div>
                     </div>
                     <div class="row">
@@ -84,10 +86,12 @@
                         <p-autoComplete formControlName="destinyId" [suggestions]="destinies" 
                         (completeMethod)="searchDestiny($event.query)" field="name">
                         </p-autoComplete>
+                        <small *ngIf="formulary.get('destinyId').invalid && formulary.get('destinyId').touched" class="form-text text-danger">Destino necessário</small>
                     </div>
                             <div class="col-sm-4">
                             <label for="recipient-name" class="col-form-label">Passageiros</label>
-                            <input type="number" class="form-control" formControlName="passQtt" required>
+                            <input type="number" min="1"  pattern="\d+" class="form-control" formControlName="passQtt" required>
+                            <small *ngIf="formulary.get('passQtt').invalid && formulary.get('passQtt').touched" class="form-text text-danger">Quantidade inválida</small>
                         </div>
                     </div>
                     <div class="row">
@@ -95,7 +99,8 @@
                             <label for="recipient-name" class="col-form-label">Tipo de ônibus</label>
                             <select class="custom-select"  formControlName="busId" required>
                             <option *ngFor="let category of busCategories" [ngValue]="category.id">{{ category.name }}</option>
-                            </select>                            
+                            </select>
+                            <small *ngIf="formulary.get('busId').invalid && formulary.get('busId').touched" class="form-text text-danger">Tipo necessário</small>                            
                         </div>
                    
                         <div class="col-sm-6">
@@ -103,20 +108,21 @@
                             <p-autoComplete formControlName="companyId" [suggestions]="companies" 
                                 (completeMethod)="searchCompany($event.query)" field="name">
                         </p-autoComplete>
+                        <small *ngIf="formulary.get('companyId').invalid && formulary.get('companyId').touched" class="form-text text-danger">Empresa necessária</small> 
                         </div>
                     </div>
                 </div>
         </div>
         <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-info">Adicionar</button>
+        <button type="submit" class="btn btn-info" [disabled]="!formulary.valid">Adicionar</button>
         </div>
     </form>
     </div>
     </div>
 </div>
 
-<!-- Modal de Edição de empresas-->
+<!-- Modal de Edição de Mapas-->
 
 <div class="modal modal-angular fade" id="modalUpdateComp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -136,11 +142,13 @@
                             <div class="col-sm-6">
                                 <label for="recipient-name" class="col-form-label">Data</label>
                                 <input type="date" class="form-control" formControlName="boardingDate" required>
+                                <small *ngIf="formulary.get('boardingDate').invalid && formulary.get('boardingDate').touched" class="form-text text-danger">Data inválida</small>
                             </div>
                         
                             <div class="col-sm-6">
                                 <label for="recipient-name" class="col-form-label">Hora</label>
                                 <input type="time" class="form-control" formControlName="boardingTime" required>
+                                <small *ngIf="formulary.get('boardingTime').invalid && formulary.get('boardingTime').touched" class="form-text text-danger">Hora inválida</small>
                             </div>
                         </div>
                         <div class="row">
@@ -149,10 +157,12 @@
                                 <p-autoComplete formControlName="destinyId" [suggestions]="destinies" 
                                 (completeMethod)="searchDestiny($event.query)" field="name" [placeholder]="destinyName">
                                 </p-autoComplete>
+                                <small *ngIf="formulary.get('destinyId').invalid && formulary.get('destinyId').touched" class="form-text text-danger">Destino necessário</small>
                             </div>
                             <div class="col-sm-6">
                                 <label for="recipient-name" class="col-form-label">Passageiros</label>
                                 <input type="number" class="form-control" formControlName="passQtt" required>
+                                <small *ngIf="formulary.get('passQtt').invalid && formulary.get('passQtt').touched" class="form-text text-danger">Quantidade inválida</small>
                             </div>
                         </div>
                         <div class="row">
@@ -160,13 +170,15 @@
                                 <label for="recipient-name" class="col-form-label">Tipo de onibus</label>
                             <select class="custom-select"  formControlName="busId" required>
                             <option *ngFor="let category of busCategories" [value]="category.id">{{ category.name }}</option>
-                            </select>  
+                            </select> 
+                            <small *ngIf="formulary.get('busId').invalid && formulary.get('busId').touched" class="form-text text-danger">Tipo necessário</small>    
                             </div>
                             <div class="col-sm-6">
                                 <label for="recipient-name" class="col-form-label">Empresa</label>
                                 <p-autoComplete formControlName="companyId" [suggestions]="companies" 
                                     (completeMethod)="searchCompany($event.query)" field="name" [placeholder]="companyName">
                             </p-autoComplete>
+                            <small *ngIf="formulary.get('companyId').invalid && formulary.get('companyId').touched" class="form-text text-danger">Empresa necessária</small> 
                             </div>
                         </div>
                     </div>
@@ -175,14 +187,14 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-info" (click)="edit(id)">Editar</button>
+            <button type="submit" class="btn btn-info" (click)="edit(id)" [disabled]="!formulary.valid">Editar</button>
         </div>
         </form>
     </div>
     </div>
 </div>
 
-<!-- Modal para excluir empresas -->
+<!-- Modal para excluir Mapas -->
 
 <div class="modal fade" id="modalDelComp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

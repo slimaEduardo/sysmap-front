@@ -65,6 +65,7 @@
                         <div class="col-sm-12">
                             <label for="recipient-name" class="col-form-label">Nome</label>
                             <input type="text" class="form-control" formControlName="name" required>
+                            <small *ngIf="formulary.get('name').invalid && formulary.get('name').touched" class="form-text text-danger">Nome inválido</small>
                         </div>
                     </div>
                 </div>
@@ -96,6 +97,7 @@
                     <div class="col-sm-12">
                         <label for="recipient-name" class="col-form-label"></label>
                         <input type="text" class="form-control" data-whatever="company.name" placeholder="Nome da Empresa" formControlName="name" required>
+                        <small *ngIf="formulary.get('name').invalid && formulary.get('name').touched" class="form-text text-danger">Nome inválido</small>
                     </div>
                 </div>
             </div>
