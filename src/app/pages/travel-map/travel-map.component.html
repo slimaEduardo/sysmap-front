@@ -1,12 +1,16 @@
 <div class="main-content">
     <div class="container-fluid">
         <button type="button" class="btn btn-round btn-fill btn-success" data-toggle="modal" data-target="#modalAdd" (click)="resetFormulary()">novo mapa</button>
+        <button type="button" class="btn btn-round btn-fill btn-warning" data-toggle="modal" data-target="#modalSearch" >Pesquisar</button>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header card-header-success">
-                        <h4 class="card-title ">Mapas</h4>
-                        <p class="card-category">Mapas cadastrados esse mês</p>
+                    <div class="card-header card-header-icon card-header-success">
+                        <div class="card-icon">
+                            <i class="material-icons"></i> 
+                            
+                        </div>
+                        <h4 class="card-title"></h4>
                     </div>
                     <div class="header">
                         <!-- <h4 class="title">Empresas</h4> -->
@@ -52,6 +56,76 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal modal-angular fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <form [formGroup]="searchFormulary" (ngSubmit)="searchMaps()">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Novo Mapa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            
+                <div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Data</label>
+                            <input type="date" class="form-control" formControlName="initialDate" required>
+                            <!-- <small *ngIf="formulary.get('boardingDate').invalid && formulary.get('boardingDate').touched" class="form-text text-danger">Data inválida</small> -->
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Data final</label>
+                            <input type="date" class="form-control" formControlName="finalDate" required>
+                            <!-- <small *ngIf="formulary.get('boardingTime').invalid && formulary.get('boardingTime').touched" class="form-text text-danger">Hora inválida</small> -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                        <label for="recipient-name" class="col-form-label">Destino</label>
+                        <p-autoComplete formControlName="destinyId" [suggestions]="destinies" 
+                        (completeMethod)="searchDestiny($event.query)" field="name">
+                        </p-autoComplete>
+                        <!-- <small *ngIf="formulary.get('destinyId').invalid && formulary.get('destinyId').touched" class="form-text text-danger">Destino necessário</small> -->
+                    </div>
+                        <!-- <div class="col-sm-4">
+                            <label for="recipient-name" class="col-form-label">Passageiros</label>
+                            <input type="number" min="1"  pattern="\d+" class="form-control" formControlName="passQtt" required>
+                            <small *ngIf="formulary.get('passQtt').invalid && formulary.get('passQtt').touched" class="form-text text-danger">Quantidade inválida</small>
+                        </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Tipo de ônibus</label>
+                            <select class="custom-select"  formControlName="busId">
+                            <option *ngFor="let category of busCategories" [ngValue]="category.id">{{ category.name }}</option>
+                            </select>
+                            <!-- <small *ngIf="formulary.get('busId').invalid && formulary.get('busId').touched" class="form-text text-danger">Tipo necessário</small> -->                            
+                        </div>
+                   
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Empresa</label>
+                            <p-autoComplete formControlName="companyId" [suggestions]="companies" 
+                                (completeMethod)="searchCompany($event.query)" field="name">
+                        </p-autoComplete>
+                        <!-- <small *ngIf="formulary.get('companyId').invalid && formulary.get('companyId').touched" class="form-text text-danger">Empresa necessária</small>  -->
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-info">Pesquisar</button>
+        </div>
+    </form>
+    </div>
+    </div>
+</div>
+
+
 
  <!-- Modal para inserir Mapa -->
 
@@ -214,3 +288,6 @@
         </div>
     </div>
 </div>
+
+<!-- Modal para pesquisa -->
+

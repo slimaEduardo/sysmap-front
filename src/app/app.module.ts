@@ -15,7 +15,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { TableListComponent } from './table-list/table-list.component';
 import { TypographyComponent } from './typography/typography.component';
 import { IconsComponent } from './icons/icons.component';
-import { MapsComponent } from './maps/maps.component';
+import { MapsComponent } from './pages/maps/maps.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { UpgradeComponent } from './upgrade/upgrade.component';
 import { AgmCoreModule } from '@agm/core';
@@ -34,6 +34,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import { NotificationService } from './services/notification.service';
+import { MapsPeriodComponent } from './pages/maps-period/maps-period.component';
 
 @NgModule({
   imports: [
@@ -64,6 +65,7 @@ import { NotificationService } from './services/notification.service';
     PaginationComponent,
     DestinyComponent,
     TravelMapComponent,
+    MapsPeriodComponent,
 
   ],
   providers: [NotificationService],

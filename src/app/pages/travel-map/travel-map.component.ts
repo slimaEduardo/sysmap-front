@@ -33,6 +33,14 @@ export class TravelMapComponent implements OnInit {
     busId: new FormControl('' , [Validators.required])
     })
 
+    public searchFormulary: FormGroup = new FormGroup({
+      initialDate: new FormControl(''),
+      finalDate: new FormControl(''),
+      companyId: new FormControl(''),
+      destinyId: new FormControl(''),
+      busId: new FormControl('' )
+    })
+
   public travelMaps: any[] = []
   public page : Page
   public show: boolean = true
@@ -48,6 +56,7 @@ export class TravelMapComponent implements OnInit {
   public busCategories: BusCategory[] = []
   public destinyName: string
   public companyName: string
+  public errors: string[] = []
 
   private subjectSearch: Subject<string> = new Subject<string>()
   public destinies: Destiny[] = []
@@ -96,11 +105,15 @@ export class TravelMapComponent implements OnInit {
       if(this.formulary.value.destinyId.id !== undefined){
       let aux1: number = this.formulary.value.destinyId.id
       this.formulary.patchValue({destinyId: aux1})
+      }else{
+       this.errors.push( 'Destino inválido.') 
       }
       if(this.formulary.value.companyId.id !== undefined){
       let aux2 = this.formulary.value.companyId.id
       this.formulary.patchValue({companyId: aux2})
-      }
+      }else{
+        this.errors.push('Empresa inválida.') 
+       }
       let aux: TravelMapNew
       aux = this.formulary.value
       console.log(aux, "ID: ",this.formulary.value.id)
@@ -111,7 +124,7 @@ export class TravelMapComponent implements OnInit {
       },
       error => {
         console.log(error)
-        this.notificationService.showNotification(`Revise as opções inseridas. ${error.name}`, 'danger', 'bottom')
+        this.notificationService.showNotification(`Revise as opções inseridas: ${this.errors}`, 'danger', 'bottom')
       })
       $('#modalUpdateComp').modal('hide')
       this.updateList.emit(this.att())
@@ -218,5 +231,9 @@ export class TravelMapComponent implements OnInit {
      public getId(term: Event){
        console.log(term)
        this.formulary.patchValue({destinyId: term})
+      }
+
+      public searchMaps(){
+        console.log(this.searchFormulary)
       }
 }

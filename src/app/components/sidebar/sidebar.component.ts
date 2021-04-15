@@ -14,6 +14,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/company', title: 'Empresas',  icon:'business', class: '' },
     { path: '/destiny', title: 'Destinos',  icon:'location_on', class: '' },
     { path: '/travelMap', title: 'Mapas',  icon:'map', class: '' },
+    { path: '/mapsPeriod', title: 'Mapas por período',  icon:'map', class: '' },
     { path: '/typography', title: 'Typography',  icon:'library_books', class: '' },
     { path: '/icons', title: 'Icons',  icon:'bubble_chart', class: '' },
     { path: '/maps', title: 'Maps',  icon:'location_on', class: '' },
