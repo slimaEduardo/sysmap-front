@@ -1,3 +1,4 @@
+import { DatePipe } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { API_CONFIG } from "app/config/api.config";
@@ -7,6 +8,8 @@ import { Observable } from "rxjs";
 
 @Injectable()
 export class TravelMapService{
+
+  
   delete(id: number) {
     return this.http.delete(`${API_CONFIG.baseUrl}/maps/${id}`,
     {
@@ -31,10 +34,10 @@ export class TravelMapService{
     return this.http.get<TravelMap>(`${API_CONFIG.baseUrl}/maps/${id}`);
   }
     
-    constructor(public http: HttpClient){}
+    constructor(public http: HttpClient, private  datepipe: DatePipe){}
 
-    public getMaps(): Observable<TravelMap[]>{
-    return this.http.get<TravelMap[]>(`${API_CONFIG.baseUrl}/maps`)
+    public getMaps(){
+      return this.http.get(`${API_CONFIG.baseUrl}/maps`)
 }  
 
 public insert(obj: TravelMapNew){
@@ -56,4 +59,31 @@ public insert(obj: TravelMapNew){
       })
   }
 
+  public listMapsPeriod(start: Date, end: Date){
+    let _start = this.datepipe.transform(start, 'ddMMyyyy')
+        let _end = this.datepipe.transform(end,'ddMMyyyy') //transforma as datas em um valor que a api vai processar
+    return this.http.get(`${API_CONFIG.baseUrl}/maps/search?start=${_start}&end=${_end}`)
+      
+  }
+  
+  public listMapsPeriodDestiny(start: Date, end: Date, id: number){
+    let _start = this.datepipe.transform(start, 'ddMMyyyy')
+        let _end = this.datepipe.transform(end,'ddMMyyyy') //transforma as datas em um valor que a api vai processar
+    return this.http.get(`${API_CONFIG.baseUrl}/maps/search1?start=${_start}&end=${_end}&term=${id}`)
+      
+  }
+  
+  public listMapsPeriodCompany(start: Date, end: Date, id: number){
+    let _start = this.datepipe.transform(start, 'ddMMyyyy')
+        let _end = this.datepipe.transform(end,'ddMMyyyy') //transforma as datas em um valor que a api vai processar
+    return this.http.get(`${API_CONFIG.baseUrl}/maps/search2?start=${_start}&end=${_end}&term=${id}`)
+      
+  }
+  
+  public listMapsPeriodBusCategory(start: Date, end: Date, id: number){
+    let _start = this.datepipe.transform(start, 'ddMMyyyy')
+        let _end = this.datepipe.transform(end,'ddMMyyyy') //transforma as datas em um valor que a api vai processar
+    return this.http.get(`${API_CONFIG.baseUrl}/maps/search3?start=${_start}&end=${_end}&term=${id}`)
+      
+  }  
 }

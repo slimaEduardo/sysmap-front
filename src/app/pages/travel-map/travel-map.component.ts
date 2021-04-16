@@ -12,6 +12,7 @@ import { DestinyService } from 'app/services/destiny.service';
 import { CompanyService } from 'app/services/company.service';
 import { Company } from 'app/models/company.model';
 import { NotificationService } from 'app/services/notification.service';
+import { DatePipe } from '@angular/common';
 
 declare var $: any;
 
@@ -19,7 +20,7 @@ declare var $: any;
   selector: 'app-travel-map',
   templateUrl: './travel-map.component.html',
   styleUrls: ['./travel-map.component.css'],
-  providers: [TravelMapService, DestinyService, CompanyService]
+  providers: [TravelMapService, DestinyService, CompanyService, DatePipe]
 })
 export class TravelMapComponent implements OnInit {
 
@@ -76,7 +77,7 @@ export class TravelMapComponent implements OnInit {
   public listMaps(){
     this.loading = true
     this.travelMapService.getMaps()
-    .subscribe(response => {
+    .subscribe((response: any) => {
       this.travelMaps = response
       console.log(this.travelMaps)
       this.loading = false
@@ -97,7 +98,7 @@ export class TravelMapComponent implements OnInit {
     
     var direction = event.sortOrder == -1 ? 'DESC' :  'ASC'
     //console.log(this.pageNumber, event.rows, event.sortField, direction, event.globalFilter)
-    this.listMaps()
+    this.listMaps(this.pageNumber, this.pageSize, this.orderBy, this.direction)
     } */
 
     public edit(id: number){
@@ -235,5 +236,40 @@ export class TravelMapComponent implements OnInit {
 
       public searchMaps(){
         console.log(this.searchFormulary)
-      }
+        console.log(this.searchFormulary.value.destinyId.id)
+        console.log(this.searchFormulary.value.busId)
+        console.log(this.searchFormulary.value.companyId.id)
+       /*  console.log(this.searchFormulary.value.initialDate)
+        console.log(this.searchFormulary.value.finalDate)
+        this.travelMapService.listMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate)
+        .subscribe((response: any) => {
+          console.log(response)
+          this.travelMaps = response
+          console.log(this.travelMaps)
+          $('#modalSearch').modal('hide')
+        }) */
+        /* this.travelMapService.listMapsPeriodDestiny(this.searchFormulary.value.initialDate, 
+          this.searchFormulary.value.finalDate,this.searchFormulary.value.destinyId.id )
+          .subscribe((response: any) => {
+            console.log(response)
+            this.travelMaps = response
+            $('#modalSearch').modal('hide')
+          }) */
+       /*  this.travelMapService.listMapsPeriodCompany(this.searchFormulary.value.initialDate, 
+          this.searchFormulary.value.finalDate,this.searchFormulary.value.companyId.id)
+          .subscribe((response: any) => {
+            console.log(response)
+            this.travelMaps = response
+            $('#modalSearch').modal('hide')
+          }) */
+
+          /* this.travelMapService.listMapsPeriodBusCategory(this.searchFormulary.value.initialDate, 
+            this.searchFormulary.value.finalDate,this.searchFormulary.value.busId)
+            .subscribe((response: any) => {
+              console.log(response)
+              this.travelMaps = response
+              $('#modalSearch').modal('hide')
+            }) */
+        }
+
 }

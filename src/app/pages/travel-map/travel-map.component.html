@@ -21,11 +21,11 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th pSortableColumn='id'>Id<p-sortIcon field="id"></p-sortIcon></th>
-                                <th pSortableColumn='destinyName'>Destino<p-sortIcon field="destinyName"></p-sortIcon></th>
+                                <th pSortableColumn='destiny.name'>Destino<p-sortIcon field="destiny.name"></p-sortIcon></th>
                                 <th pSortableColumn='boardingDate'>Data<p-sortIcon field="boardingDate"></p-sortIcon></th>
                                 <th pSortableColumn='boardingTime'>Hora<p-sortIcon field="boardingTime"></p-sortIcon></th>
-                                <th pSortableColumn='companyName'>Empresa<p-sortIcon field="companyName"></p-sortIcon></th>
-                                <th pSortableColumn='busCategory'>Categoria<p-sortIcon field="busCategory"></p-sortIcon></th>
+                                <th pSortableColumn='company.name'>Empresa<p-sortIcon field="company.name"></p-sortIcon></th>
+                                <th pSortableColumn='busCategory.name'>Categoria<p-sortIcon field="busCategory.name"></p-sortIcon></th>
                                 <th pSortableColumn='passQtt'>Passageiros<p-sortIcon field="passQtt"></p-sortIcon></th>
                                 <th>Ações</th>
                             </tr>
@@ -73,7 +73,7 @@
                 <div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <label for="recipient-name" class="col-form-label">Data</label>
+                            <label for="recipient-name" class="col-form-label">Data inicial</label>
                             <input type="date" class="form-control" formControlName="initialDate" required>
                             <!-- <small *ngIf="formulary.get('boardingDate').invalid && formulary.get('boardingDate').touched" class="form-text text-danger">Data inválida</small> -->
                         </div>
