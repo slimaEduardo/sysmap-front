@@ -35,6 +35,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import { NotificationService } from './services/notification.service';
 import { MapsPeriodComponent } from './pages/maps-period/maps-period.component';
+import { UserComponent } from './pages/user/user.component';
 
 @NgModule({
   imports: [
@@ -66,6 +67,7 @@ import { MapsPeriodComponent } from './pages/maps-period/maps-period.component';
     DestinyComponent,
     TravelMapComponent,
     MapsPeriodComponent,
+    UserComponent,
 
   ],
   providers: [NotificationService],

@@ -234,42 +234,47 @@ export class TravelMapComponent implements OnInit {
        this.formulary.patchValue({destinyId: term})
       }
 
-      public searchMaps(){
+  public searchMaps(){
         console.log(this.searchFormulary)
         console.log(this.searchFormulary.value.destinyId.id)
         console.log(this.searchFormulary.value.busId)
         console.log(this.searchFormulary.value.companyId.id)
-       /*  console.log(this.searchFormulary.value.initialDate)
-        console.log(this.searchFormulary.value.finalDate)
-        this.travelMapService.listMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate)
-        .subscribe((response: any) => {
-          console.log(response)
-          this.travelMaps = response
-          console.log(this.travelMaps)
-          $('#modalSearch').modal('hide')
-        }) */
-        /* this.travelMapService.listMapsPeriodDestiny(this.searchFormulary.value.initialDate, 
-          this.searchFormulary.value.finalDate,this.searchFormulary.value.destinyId.id )
-          .subscribe((response: any) => {
-            console.log(response)
-            this.travelMaps = response
-            $('#modalSearch').modal('hide')
-          }) */
-       /*  this.travelMapService.listMapsPeriodCompany(this.searchFormulary.value.initialDate, 
-          this.searchFormulary.value.finalDate,this.searchFormulary.value.companyId.id)
-          .subscribe((response: any) => {
-            console.log(response)
-            this.travelMaps = response
-            $('#modalSearch').modal('hide')
-          }) */
 
-          /* this.travelMapService.listMapsPeriodBusCategory(this.searchFormulary.value.initialDate, 
+        if (this.searchFormulary.value.destinyId.id !== undefined){
+          console.log('chegamos aqui')
+          this.travelMapService.listMapsPeriodDestiny(this.searchFormulary.value.initialDate, 
+            this.searchFormulary.value.finalDate,this.searchFormulary.value.destinyId.id )
+            .subscribe((response: any) => {
+              console.log(response)
+              this.travelMaps = response
+              $('#modalSearch').modal('hide')
+            })
+        }else if(this.searchFormulary.value.companyId.id !== undefined){
+          this.travelMapService.listMapsPeriodCompany(this.searchFormulary.value.initialDate, 
+            this.searchFormulary.value.finalDate,this.searchFormulary.value.companyId.id)
+            .subscribe((response: any) => {
+              console.log(response)
+              this.travelMaps = response
+              $('#modalSearch').modal('hide')
+            })
+        }else if(this.searchFormulary.value.busId !== ''){
+          this.travelMapService.listMapsPeriodBusCategory(this.searchFormulary.value.initialDate, 
             this.searchFormulary.value.finalDate,this.searchFormulary.value.busId)
             .subscribe((response: any) => {
               console.log(response)
               this.travelMaps = response
               $('#modalSearch').modal('hide')
-            }) */
-        }
+            })
+        }else{
+          this.travelMapService.listMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate)
+        .subscribe((response: any) => {
+          console.log(response)
+          this.travelMaps = response
+          console.log(this.travelMaps)
+          $('#modalSearch').modal('hide')
+        })
+      }
+      this.searchFormulary.reset()
+  }
 
 }

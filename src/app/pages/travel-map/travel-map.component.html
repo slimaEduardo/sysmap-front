@@ -1,23 +1,31 @@
 <div class="main-content">
     <div class="container-fluid">
+      
+        <div class="row">
+            <div class="col align-self-start">
         <button type="button" class="btn btn-round btn-fill btn-success" data-toggle="modal" data-target="#modalAdd" (click)="resetFormulary()">novo mapa</button>
+       
+        
         <button type="button" class="btn btn-round btn-fill btn-warning" data-toggle="modal" data-target="#modalSearch" >Pesquisar</button>
+        </div>
+        <div class="col col-sm-2">
+        <button type="button" class="btn btn-round btn-fill btn-danger" (click)="att()" >Resetar</button>
+        </div>
+        </div>
+        
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header card-header-icon card-header-success">
-                        <div class="card-icon">
-                            <i class="material-icons"></i> 
-                            
-                        </div>
-                        <h4 class="card-title"></h4>
+                    <div class="card-header card-header-success">
+                        <h4 class="card-title">Mapas de Viagem</h4>
+                        <p class="card-category">Mapas de viagem cadastrados</p>
                     </div>
                     <div class="header">
                         <!-- <h4 class="title">Empresas</h4> -->
                     </div>
                         <p-table class="table table-hover table-striped" #dt1 [value]="travelMaps" [rows]="10"  [showCurrentPageReport]="true" [paginator]="true" 
                         [rowsPerPageOptions]="[10,25,50]" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} resultados"
-                        [globalFilterFields]="['id','name']" >
+                        [globalFilterFields]="['id','destiny.name','boardingDate','company.name','busCategory.name']" >
                         <ng-template pTemplate="header">
                             <tr>
                                 <th pSortableColumn='id'>Id<p-sortIcon field="id"></p-sortIcon></th>
