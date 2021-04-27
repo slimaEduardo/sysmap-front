@@ -277,4 +277,19 @@ export class TravelMapComponent implements OnInit {
       this.searchFormulary.reset()
   }
 
+  public reportMaps(){
+    this.travelMapService.reportMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate)
+        .subscribe((response: any) => {
+          console.log(response)
+          $('#modalReport').modal('hide')
+          this.notificationService.showNotification("Mapa criado com suecesso", 'success', 'top')
+        },
+        error => {
+          console.log("Erro: ",error.error.msg)
+          $('#modalReport').modal('hide')
+          this.notificationService.showNotification( error.error.msg, 'danger','top')
+        })
+        this.searchFormulary.reset()
+  }
+
 }
