@@ -7,6 +7,8 @@
        
         
         <button type="button" class="btn btn-round btn-fill btn-warning" data-toggle="modal" data-target="#modalSearch" >Pesquisar</button>
+
+       
         </div>
         <div class="col col-sm-2">
         <button type="button" class="btn btn-round btn-fill btn-danger" (click)="att()" >Resetar</button>
@@ -66,12 +68,13 @@
 </div>
 
 
+
 <div class="modal modal-angular fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
     <div class="modal-content">
     <form [formGroup]="searchFormulary" (ngSubmit)="searchMaps()">
         <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Novo Mapa</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Pesquisa por Mapas</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -83,50 +86,71 @@
                         <div class="col-sm-6">
                             <label for="recipient-name" class="col-form-label">Data inicial</label>
                             <input type="date" class="form-control" formControlName="initialDate" required>
-                            <!-- <small *ngIf="formulary.get('boardingDate').invalid && formulary.get('boardingDate').touched" class="form-text text-danger">Data inválida</small> -->
+                            <small *ngIf="searchFormulary.get('initialDate').invalid && searchFormulary.get('initialDate').touched" class="form-text text-danger">Data inválida</small>
                         </div>
                         <div class="col-sm-6">
                             <label for="recipient-name" class="col-form-label">Data final</label>
                             <input type="date" class="form-control" formControlName="finalDate" required>
-                            <!-- <small *ngIf="formulary.get('boardingTime').invalid && formulary.get('boardingTime').touched" class="form-text text-danger">Hora inválida</small> -->
+                            <small *ngIf="searchFormulary.get('finalDate').invalid && searchFormulary.get('finalDate').touched" class="form-text text-danger">Data inválida</small>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                        <label for="recipient-name" class="col-form-label">Destino</label>
-                        <p-autoComplete formControlName="destinyId" [suggestions]="destinies" 
-                        (completeMethod)="searchDestiny($event.query)" field="name">
-                        </p-autoComplete>
-                        <!-- <small *ngIf="formulary.get('destinyId').invalid && formulary.get('destinyId').touched" class="form-text text-danger">Destino necessário</small> -->
-                    </div>
-                        <!-- <div class="col-sm-4">
-                            <label for="recipient-name" class="col-form-label">Passageiros</label>
-                            <input type="number" min="1"  pattern="\d+" class="form-control" formControlName="passQtt" required>
-                            <small *ngIf="formulary.get('passQtt').invalid && formulary.get('passQtt').touched" class="form-text text-danger">Quantidade inválida</small>
+                   <!--  <div class="form-check form-check-inline">
+                    <input type="radio" value="Cadastrar" onclick="document.getElementById('teste').style.display='block';" /> 
+                    <input type="radio" value="Cadastrar" onclick="document.getElementById('teste1').style.display='block';" /> 
+                    <input type="radio" value="Cadastrar" onclick="document.getElementById('teste2').style.display='block';" /> 
                         </div> -->
-                    </div>
+                        <div>
+                            <label>Filtre por</label>
+                        </div>
+                        <div>
+                        <div class="form-check form-check-inline">
+                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" 
+                            onclick="document.getElementById('teste').style.display='block' ; document.getElementById('teste1').style.display='none'; 
+                            document.getElementById('teste2').style.display='none';">
+                            <label class="form-check-label" for="inlineRadio1">Categoria</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" 
+                            onclick="document.getElementById('teste1').style.display='block'; document.getElementById('teste').style.display='none'; 
+                            document.getElementById('teste2').style.display='none';">
+                            <label class="form-check-label" for="inlineRadio2">Destino</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" 
+                            onclick="document.getElementById('teste2').style.display='block'; document.getElementById('teste').style.display='none'; 
+                            document.getElementById('teste1').style.display='none';">
+                            <label class="form-check-label" for="inlineRadio3">Empresa</label>
+                          </div>
+                          </div>
                     <div class="row">
-                        <div class="col-sm-6">
-                            <label for="recipient-name" class="col-form-label">Tipo de ônibus</label>
+                        <div class="col-sm-6 hidden" id="teste1">
+                       <!--  <label for="recipient-name" class="col-form-label">Destino</label> -->
+                        <p-autoComplete formControlName="destinyId" [suggestions]="destinies" 
+                        (completeMethod)="searchDestiny($event.query)" field="name" id="codigo" ngmodel="testInput">
+                        </p-autoComplete>
+                    </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-6 hidden" id="teste">
+                           <!--  <label for="recipient-name" class="col-form-label">Tipo de ônibus</label> -->
                             <select class="custom-select"  formControlName="busId">
                             <option *ngFor="let category of busCategories" [ngValue]="category.id">{{ category.name }}</option>
-                            </select>
-                            <!-- <small *ngIf="formulary.get('busId').invalid && formulary.get('busId').touched" class="form-text text-danger">Tipo necessário</small> -->                            
+                            </select>                            
                         </div>
                    
-                        <div class="col-sm-6">
-                            <label for="recipient-name" class="col-form-label">Empresa</label>
-                            <p-autoComplete formControlName="companyId" [suggestions]="companies" 
+                        <div class="col-sm-6 hidden" id="teste2">
+                            <!-- <label for="recipient-name" class="col-form-label">Empresa</label> -->
+                            <p-autoComplete id="_company" formControlName="companyId" [suggestions]="companies" 
                                 (completeMethod)="searchCompany($event.query)" field="name">
                         </p-autoComplete>
-                        <!-- <small *ngIf="formulary.get('companyId').invalid && formulary.get('companyId').touched" class="form-text text-danger">Empresa necessária</small>  -->
                         </div>
                     </div>
                 </div>
         </div>
         <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-info">Pesquisar</button>
+        <button type="submit" class="btn btn-info" [disabled]="!searchFormulary.valid">Pesquisar</button>
         </div>
     </form>
     </div>
