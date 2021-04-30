@@ -90,11 +90,9 @@ public insert(obj: TravelMapNew){
   reportMapsPeriod(start: any, end: any) {
     let _start = this.datepipe.transform(start, 'ddMMyyyy')
         let _end = this.datepipe.transform(end,'ddMMyyyy') //transforma as datas em um valor que a api vai processar
-    return this.http.get(`${API_CONFIG.baseUrl}/maps/report?start=${_start}&end=${_end}`,
-    {
-      observe: 'response',
-      responseType: 'text'
-    });
+       
+    window.open(`${API_CONFIG.baseUrl}/maps/report?start=${_start}&end=${_end}`, "_blank")
+    
   }
 
 }
