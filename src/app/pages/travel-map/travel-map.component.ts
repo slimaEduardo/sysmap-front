@@ -279,6 +279,8 @@ export class TravelMapComponent implements OnInit {
 
   public reportMaps(){
     this.travelMapService.reportMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate)
+    $('#modalReport').modal('hide')
+    this.searchFormulary.reset()
         /* .subscribe((response: any) => {
           console.log(response)
           $('#modalReport').modal('hide')

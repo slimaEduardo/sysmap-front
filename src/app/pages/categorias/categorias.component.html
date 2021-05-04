@@ -1,0 +1,133 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <button type="button" class="btn btn-round btn-fill btn-success" data-toggle="modal" data-target="#modalAddComp" (click)="resetFormulary()">novo mapa</button>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-success">
+                        <h4 class="card-title ">Categorias</h4>
+                        <p class="card-category">Categorias de ônibus</p>
+                    </div>
+                    <div class="header">
+                        <!-- <h4 class="title">Empresas</h4> -->
+                    </div>
+                        <p-table class="table table-hover table-striped" #dt1 [value]="categories" [showCurrentPageReport]="false"  
+                        currentPageReportTemplate="Mostrando {first} a {last} de {{totalRecords}} resultados"
+                        [rowsPerPageOptions]="[10,20,30]" (onLazyLoad)="paginate($event)"
+                        [paginator]="false" [rows]="10" [totalRecords]="totalRecords" [sortField]="orderBy"
+                        [globalFilterFields]="['id','name']" >
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn='id'>Id<p-sortIcon field="id"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn='name'>Nome <p-sortIcon field="name"></p-sortIcon></th>
+                                <th>Ações</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-category>
+                            <tr>
+                                <td>{{category.id}}</td>
+                                <td>{{category.name}}</td>
+                                <td class="dropdown">
+                                    <a href="#" class="dropdown" data-toggle="dropdown">
+                                        <img src="../../assets/img/outline_view_headline_black_18.png" ><b class="btn-simple btn-icon"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a data-toggle="modal" data-target="#modalUpdateComp" (click)="listCategory(category.id)">Editar</a></li>
+                                        <li><a data-toggle="modal"  data-target="#modalDelComp"  (click)="listCategory(category.id)">Excluir</a></li>
+                                    </ul>                               
+                            </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <!-- Modal para inserir Empresa -->
+
+ <div class="modal modal-angular fade" id="modalAddComp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <form [formGroup]="formulary" (ngSubmit)="addCmp()">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nova Categoria</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            
+                <div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="recipient-name" class="col-form-label">Nome</label>
+                            <input type="text" class="form-control" formControlName="name" required>
+                            <small *ngIf="formulary.get('name').invalid && formulary.get('name').touched" class="form-text text-danger">Nome inválido</small>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-info" [disabled]="!formulary.valid">Adicionar</button>
+        </div>
+    </form>
+    </div>
+    </div>
+</div>
+
+<!-- Modal de Edição de empresas-->
+
+<div class="modal modal-angular fade" id="modalUpdateComp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <form [formGroup]="formulary">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Editar Categoria</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="recipient-name" class="col-form-label"></label>
+                        <input type="text" class="form-control" data-whatever="company.name" placeholder="Nome da Empresa" formControlName="name" required>
+                        <small *ngIf="formulary.get('name').invalid && formulary.get('name').touched" class="form-text text-danger">Nome inválido</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-info"  [disabled]="!formulary.valid" (click)="edit(company.id)">Editar</button>
+        </div>
+        </form>
+    </div>
+    </div>
+</div>
+
+<!-- Modal para excluir empresas -->
+
+<div class="modal fade" id="modalDelComp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Deletar </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        Tem certeza?
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="delete(category.id)" data-dismiss="modal">Apagar</button>
+        </div>
+    </div>
+</div>

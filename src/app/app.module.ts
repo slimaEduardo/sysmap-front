@@ -36,6 +36,7 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import { NotificationService } from './services/notification.service';
 import { MapsPeriodComponent } from './pages/maps-period/maps-period.component';
 import { UserComponent } from './pages/user/user.component';
+import { CategoriasComponent } from './pages/categorias/categorias.component';
 
 @NgModule({
   imports: [
@@ -68,6 +69,7 @@ import { UserComponent } from './pages/user/user.component';
     TravelMapComponent,
     MapsPeriodComponent,
     UserComponent,
+    CategoriasComponent,
 
   ],
   providers: [NotificationService],

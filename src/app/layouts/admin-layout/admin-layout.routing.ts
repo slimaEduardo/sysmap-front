@@ -13,6 +13,8 @@ import { DestinyComponent } from 'app/pages/destiny/destiny.component';
 import { TravelMapComponent } from 'app/pages/travel-map/travel-map.component';
 import { MapsPeriodComponent } from 'app/pages/maps-period/maps-period.component';
 import { UserComponent } from 'app/pages/user/user.component';
+import { CategoriasComponent } from 'app/pages/categorias/categorias.component';
+
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -70,4 +72,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'upgrade',        component: UpgradeComponent },
     { path: 'user',        component: UserComponent },
+    { path: 'categorias',      component: CategoriasComponent}
 ];
