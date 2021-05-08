@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { User, UserNew } from 'app/models/user.model';
 import { UserService } from 'app/services/user.service';
 
@@ -19,11 +22,16 @@ export class UserComponent implements OnInit {
     password: new FormControl('' , [Validators.required])
     })
 
+  displayedColumns: string[] = ['id', 'name', 'userName', 'userProfile', 'password','actions']
+  dataSource: MatTableDataSource<User> 
   public users: User[]
   public user: User
   public show: boolean = true
 
   constructor(public userService: UserService) { }
+
+  @ViewChild(MatPaginator) paginator: MatPaginator
+  @ViewChild(MatSort) sort: MatSort
 
   ngOnInit(): void {
     this.listUsers()
@@ -34,6 +42,9 @@ export class UserComponent implements OnInit {
     .subscribe((response: any) => {
       console.log(response)
       this.users = response
+      this.dataSource = new MatTableDataSource(this.users)
+      this.dataSource.paginator = this.paginator
+      this.dataSource.sort = this.sort
     })
   }
 

@@ -1,6 +1,9 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, ViewChild } from '@angular/core';
 import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Company } from 'app/models/company.model';
 import { Page } from 'app/models/page';
 import { CompanyService } from 'app/services/company.service';
@@ -23,7 +26,8 @@ export class CompanyComponent implements OnInit {
     })
 
 
-  displayedColumns: string[] = ['id', 'name'];
+  displayedColumns: string[] = ['id', 'name', 'actions']
+  dataSource: MatTableDataSource<Company> 
   public companies: any[] = []
   public page : Page
   public show: boolean = true
@@ -42,20 +46,21 @@ export class CompanyComponent implements OnInit {
     
   }
 
-   ngOnInit(): void {
-       this.listCompanies(this.pageNumber, this.pageSize, this.orderBy, this.direction)
-     
-   } 
+  @ViewChild(MatPaginator) paginator: MatPaginator
+  @ViewChild(MatSort) sort: MatSort
 
-  public listCompanies(page: number, size: number, orderBy: string, direction: string){
-    this.loading = true
-    this.companyService.getCompanies(page, size, orderBy, direction)
+  ngOnInit(): void {
+    this.listCompanies()
+  } 
+
+  public listCompanies(){
+    this.companyService.getCompanies()
     .subscribe(response => {
-      this.page = response
-      this.totalRecords = this.page.totalElements
+      this.companies = response
+      this.dataSource = new MatTableDataSource(this.companies)
+      this.dataSource.paginator = this.paginator
+      this.dataSource.sort = this.sort
       //console.log(this.totalRecords)
-      this.companies = response.content
-      this.loading = false
     })
   }
 
@@ -73,18 +78,15 @@ export class CompanyComponent implements OnInit {
         $('#modalAddComp').modal('hide')
   }
 
-  public paginate(event: LazyLoadEvent){
-  //console.log(event)
+  /* public paginate(event: LazyLoadEvent){
   this.pageNumber = Math.floor(event.first/event.rows)
   this.orderBy = event.sortField
-  
   var direction = event.sortOrder == -1 ? 'DESC' :  'ASC'
-  //console.log(this.pageNumber, event.rows, event.sortField, direction, event.globalFilter)
   this.listCompanies(this.pageNumber, event.rows, this.orderBy, direction)
   if(event.globalFilter != null){
     console.log("chegamos aqui!")
   } 
-  }
+  } */
 
   public edit(id: number){
     //console.log("editar", id)
@@ -119,11 +121,11 @@ export class CompanyComponent implements OnInit {
   }
 
   public att() {
-    this.listCompanies(this.pageNumber, this.pageSize, this.orderBy, this.direction) // para atualizar o dados do array
+    this.listCompanies() // para atualizar o dados do array
       this.show = false // tirar tabela do DOM
         setTimeout(() => {
           this.show = true // retorna com tabela para o DOM e os dados atualizados do
-          this.listCompanies(this.pageNumber, this.pageSize, this.orderBy, this.direction)
+          this.listCompanies()
         }, 50);
     }
 

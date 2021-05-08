@@ -11,44 +11,40 @@
                     <div class="header">                        
                     </div>
                     <div class="p-d-flex">
-                        <!-- <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button> -->
-                        <span class="p-input-icon-left p-ml-auto">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
-                        </span>
                     </div>
-                        <p-table #dt1 class="table table-hover table-striped" [value]="destinies" [lazy]="true" [showCurrentPageReport]="true"  
-                        currentPageReportTemplate="Mostrando {first} a {last} de {{totalRecords}} resultados"
-                        [rowsPerPageOptions]="[10,20,30]" (onLazyLoad)="paginate($event)"
-                        [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [sortField]="orderBy"
-                        [globalFilterFields]="['id','name']" >
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn='id'>Id<p-sortIcon field="id"></p-sortIcon></th>
-                                <th pSortableColumn='name'>Nome <p-sortIcon field="name"></p-sortIcon></th>
-                                <th pSortableColumn='distance'>Distância<p-sortIcon field="distance"></p-sortIcon></th>
-                                <th pSortableColumn='category'>Tipo<p-sortIcon field="category"></p-sortIcon></th>
-                                <th>Ações</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-destiny>
-                            <tr>
-                                <td>{{destiny.id}}</td>
-                                <td>{{destiny.name}}</td>
-                                <td>{{destiny.distance}} Km</td>
-                                <td>{{destiny.category.name}}</td>
-                                <td class="dropdown">
-                                    <a href="#" class="dropdown" data-toggle="dropdown">
-                                        <img src="../../assets/img/outline_view_headline_black_18.png" ><b class="btn-simple btn-icon"></b>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a data-toggle="modal" data-target="#modalUpdate" (click)="listObj(destiny.id)">Editar</a></li>
-                                        <li><a data-toggle="modal" data-target="#modalDel" (click)="listObj(destiny.id)">Excluir</a></li>
-                                    </ul>                               
+                    <table mat-table [dataSource]="dataSource" matSort class="table table-hover table-striped">
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="distance">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Distância</th>
+                            <td mat-cell *matCellDef="let element"> {{element.distance}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Linha</th>
+                            <td mat-cell *matCellDef="let element"> {{element.category.name}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef> Ações </th>
+                            <td mat-cell *matCellDef="let element" class="dropdown">
+                                <a href="#" class="dropdown" data-toggle="dropdown">
+                                    <img src="../../assets/img/outline_view_headline_black_18.png" ><b class="btn-simple btn-icon"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a data-toggle="modal" data-target="#modalUpdate" (click)="listObj(element.id)">Editar</a></li>
+                                    <li><a data-toggle="modal"  data-target="#modalDel"  (click)="listObj(element.id)">Excluir</a></li>
+                                </ul>                               
                             </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
+                        </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons></mat-paginator>
                 </div>
             </div>
         </div>

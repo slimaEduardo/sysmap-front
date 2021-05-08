@@ -22,42 +22,51 @@
                     <div class="header">
                         <!-- <h4 class="title">Empresas</h4> -->
                     </div>
-                        <p-table class="table table-hover table-striped" #dt1 [value]="travelMaps" [rows]="10"  [showCurrentPageReport]="true" [paginator]="true" 
-                        [rowsPerPageOptions]="[10,25,50]" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} resultados"
-                        [globalFilterFields]="['id','destiny.name','boardingDate','company.name','busCategory.name']" >
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn='id'>Id<p-sortIcon field="id"></p-sortIcon></th>
-                                <th pSortableColumn='destiny.name'>Destino<p-sortIcon field="destiny.name"></p-sortIcon></th>
-                                <th pSortableColumn='boardingDate'>Data<p-sortIcon field="boardingDate"></p-sortIcon></th>
-                                <th pSortableColumn='boardingTime'>Hora<p-sortIcon field="boardingTime"></p-sortIcon></th>
-                                <th pSortableColumn='company.name'>Empresa<p-sortIcon field="company.name"></p-sortIcon></th>
-                                <th pSortableColumn='busCategory.name'>Categoria<p-sortIcon field="busCategory.name"></p-sortIcon></th>
-                                <th pSortableColumn='passQtt'>Passageiros<p-sortIcon field="passQtt"></p-sortIcon></th>
-                                <th>Ações</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-map>
-                            <tr>
-                                <td>{{map.id}}</td>
-                                <td>{{map.destiny.name}}</td>
-                                <td>{{map.boardingDate}}</td>
-                                <td>{{map.boardingTime}}</td>
-                                <td>{{map.company.name}}</td>
-                                <td>{{map.busCategory.name}}</td>
-                                <td>{{map.passQtt}}</td>
-                                <td class="dropdown">
-                                    <a href="#" class="dropdown" data-toggle="dropdown">
-                                        <img src="../../assets/img/outline_view_headline_black_18.png" ><b class="btn-simple btn-icon"></b>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a data-toggle="modal" data-target="#modalUpdateComp" (click)="listObj(map.id)">Editar</a></li>
-                                        <li><a data-toggle="modal"  data-target="#modalDelComp"  (click)="listObj(map.id)">Excluir</a></li>
-                                    </ul>                               
+                    <table mat-table [dataSource]="dataSource" matSort class="table table-hover table-striped">
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="destiny">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Destino</th>
+                            <td mat-cell *matCellDef="let element"> {{element.destiny.name}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="boardingDate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Data</th>
+                            <td mat-cell *matCellDef="let element"> {{element.boardingDate | date:"dd/MM/yyyy"}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="boardingTime">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Hora</th>
+                            <td mat-cell *matCellDef="let element"> {{element.boardingTime}} </td>
+                        </ng-container>
+						<ng-container matColumnDef="company">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Empresa</th>
+                            <td mat-cell *matCellDef="let element"> {{element.company.name}} </td>
+                        </ng-container>
+						<ng-container matColumnDef="category">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de Linha</th>
+                            <td mat-cell *matCellDef="let element"> {{element.busCategory.name}} </td>
+                        </ng-container>
+						<ng-container matColumnDef="passQtt">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Passageiros</th>
+                            <td mat-cell *matCellDef="let element"> {{element.passQtt}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef> Ações </th>
+                            <td mat-cell *matCellDef="let element" class="dropdown">
+                                <a href="#" class="dropdown" data-toggle="dropdown">
+                                    <img src="../../assets/img/outline_view_headline_black_18.png" ><b class="btn-simple btn-icon"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a data-toggle="modal" data-target="#modalUpdate" (click)="listObj(element.id)">Editar</a></li>
+                                    <li><a data-toggle="modal"  data-target="#modalDel"  (click)="listObj(element.id)">Excluir</a></li>
+                                </ul>                               
                             </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
+                        </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons></mat-paginator>
                 </div>
             </div>
         </div>
@@ -316,7 +325,7 @@
 
 <!-- Modal de Edição de Mapas-->
 
-<div class="modal modal-angular fade" id="modalUpdateComp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal modal-angular fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
     <div class="modal-content">
         <form [formGroup]="formulary">
@@ -388,7 +397,7 @@
 
 <!-- Modal para excluir Mapas -->
 
-<div class="modal fade" id="modalDelComp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="modalDel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
         <div class="modal-header">

@@ -1,5 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { BusCategory } from 'app/models/travel-map.model';
 import { BusCategoryService } from 'app/services/busCategory.service';
 import { NotificationService } from 'app/services/notification.service';
@@ -20,17 +23,12 @@ export class CategoriasComponent implements OnInit {
     })
 
 
-  displayedColumns: string[] = ['id', 'name'];
+  displayedColumns: string[] = ['id', 'name','actions']
+  dataSource: MatTableDataSource<BusCategory> 
   public categories: BusCategory[] = []
   public show: boolean = true
   public category: BusCategory
-  public pageNumber = 0
-  public pageSize = 10
-  public orderBy = 'id'
-  public totalRecords: number
-  public direction: string = 'DESC'
-  public  loading: boolean
-  public globalFilter: string = ""
+  
 
   @Output() public updateList: EventEmitter<any> = new EventEmitter<any>()
   
@@ -38,17 +36,20 @@ export class CategoriasComponent implements OnInit {
     
   }
 
-   ngOnInit(): void {
-       this.listCategories()
-     
-   } 
+  @ViewChild(MatPaginator) paginator: MatPaginator
+  @ViewChild(MatSort) sort: MatSort;
+
+  ngOnInit(): void {
+    this.listCategories()  
+  } 
 
   public listCategories(){
-     this.categoryService.listCategories()
+    this.categoryService.listCategories()
     .then(response => {
-
       this.categories = response
-      console.log(this.categories)
+      this.dataSource = new MatTableDataSource(this.categories)
+      this.dataSource.paginator = this.paginator
+      this.dataSource.sort = this.sort
     })
   }
 
@@ -57,7 +58,7 @@ export class CategoriasComponent implements OnInit {
         .subscribe(response => {
           console.log(response)
           //let _comp: Company = response.body.valueOf()
-          this.notificationService.showNotification(`Empresa criada com suecesso`, 'success','top')
+          this.notificationService.showNotification(`Categoria criada com suecesso`, 'success','top')
           this.att()
         },
         error => {
@@ -74,7 +75,7 @@ export class CategoriasComponent implements OnInit {
     this.categoryService.update(id,aux)
     .subscribe(response => {
       console.log(response)
-      this.notificationService.showNotification("Empresa editada com suecesso", 'success','top')
+      this.notificationService.showNotification("Categoria editada com suecesso", 'success','top')
     },
     error => {
       console.log(error)
@@ -86,7 +87,7 @@ export class CategoriasComponent implements OnInit {
   public delete(id: number){
     this.categoryService.delete(id).subscribe(response => {
       console.log(response)
-      this.notificationService.showNotification("Empresa excluída com suecesso", 'success','top')
+      this.notificationService.showNotification("Categoria excluída com suecesso", 'success','top')
     },
     error => {
       console.log("Erro: ",error.error.msg)
@@ -108,7 +109,7 @@ export class CategoriasComponent implements OnInit {
         }, 50);
     }
 
-    public listCategory(id: number){
+    public listObj(id: number){
       this.categoryService.findById(id).subscribe(response => {
         this.category = response
         this.formulary = new FormGroup({

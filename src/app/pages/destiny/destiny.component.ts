@@ -1,5 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Destiny, DestinyNew, TypeLine } from 'app/models/destiny.model';
 import { Page } from 'app/models/page';
 import { DestinyService } from 'app/services/destiny.service';
@@ -23,6 +26,8 @@ export class DestinyComponent implements OnInit {
     categoryId: new FormControl('' , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')])
     })
 
+  displayedColumns: string[] = ['id', 'name', 'distance','type','actions']
+  dataSource: MatTableDataSource<Destiny> 
   public destinies: any[] = []
   public page : Page
   public show: boolean = true
@@ -41,25 +46,26 @@ export class DestinyComponent implements OnInit {
 
   constructor(private destinyService: DestinyService, private notificationService: NotificationService) { }
 
-  public listDestinies(page: number, size: number, orderBy: string, direction: string){
-    this.loading = true
-    this.destinyService.getCompanies(page, size, orderBy, direction)
+  @ViewChild(MatPaginator) paginator: MatPaginator
+  @ViewChild(MatSort) sort: MatSort;
+
+  public listDestinies(){
+    this.destinyService.getDestinies()
     .subscribe(response => {
-      this.page = response
-      this.totalRecords = this.page.totalElements
-      this.destinies = response.content
-      //console.log(this.destinies)
-      this.loading = false
+      this.destinies = response
+      this.dataSource = new MatTableDataSource(this.destinies)
+      this.dataSource.paginator = this.paginator
+      this.dataSource.sort = this.sort
     })
   }
 
   ngOnInit(): void {
-    this.listDestinies(this.pageNumber, this.pageSize, this.orderBy, this.direction)
+    this.listDestinies()
     this.listCategories()
   }
 
-  public paginate(event: LazyLoadEvent){
-    //Verifica se há algo no campo de pesquisa
+  /* public paginate(event: LazyLoadEvent){
+    
     if(event.globalFilter != null){
       console.log("Chegamos aqui!", event.globalFilter)
       this.destinyService.listByname(event.globalFilter)
@@ -68,14 +74,13 @@ export class DestinyComponent implements OnInit {
         console.log(this.destinies)
       })
     }else{
-       //console.log(event)
+      
     this.pageNumber = Math.floor(event.first/event.rows)
     this.orderBy = event.sortField
-    //Define a ordem a qual a lista é apresentada
     var direction = event.sortOrder == -1 ? 'DESC' :  'ASC'
-    this.listDestinies(this.pageNumber, event.rows, this.orderBy, direction)
+    this.listDestinies()
     }
-    }
+    } */
 
     public edit(id: number){
       //console.log("editar", id)
@@ -93,11 +98,11 @@ export class DestinyComponent implements OnInit {
     }
 
     public att() {
-      this.listDestinies(this.pageNumber, this.pageSize, this.orderBy, this.direction) // para atualizar o dados do array
+      this.listDestinies() // para atualizar o dados do array
         this.show = false // tirar tabela do DOM
           setTimeout(() => {
             this.show = true // retorna com tabela para o DOM e os dados atualizados do
-            this.listDestinies(this.pageNumber, this.pageSize, this.orderBy, this.direction)
+            this.listDestinies()
           }, 50);
       }
 

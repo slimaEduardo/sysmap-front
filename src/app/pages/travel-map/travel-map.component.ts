@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { of } from 'rxjs';
 import { Destiny } from 'app/models/destiny.model';
@@ -13,6 +13,9 @@ import { CompanyService } from 'app/services/company.service';
 import { Company } from 'app/models/company.model';
 import { NotificationService } from 'app/services/notification.service';
 import { DatePipe } from '@angular/common';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 declare var $: any;
 
@@ -42,18 +45,14 @@ export class TravelMapComponent implements OnInit {
       busId: new FormControl('' )
     })
 
+  displayedColumns: string[] = ['id', 'destiny', 'boardingDate', 'boardingTime',
+  'company', 'category', 'passQtt','actions']
+  dataSource: MatTableDataSource<TravelMap> 
   public travelMaps: any[] = []
   public page : Page
   public show: boolean = true
   public travelMap: TravelMap
   public travelMapNew: TravelMapNew
-  public pageNumber = 0
-  public pageSize = 10
-  public orderBy = 'id'
-  public totalRecords: number
-  public direction: string = 'ASC'
-  public  loading: boolean
-  public globalFilter: string = ""
   public busCategories: BusCategory[] = []
   public destinyName: string
   public companyName: string
@@ -74,13 +73,18 @@ export class TravelMapComponent implements OnInit {
     
   }
 
+  @ViewChild(MatPaginator) paginator: MatPaginator
+  @ViewChild(MatSort) sort: MatSort
+
   public listMaps(){
-    this.loading = true
     this.travelMapService.getMaps()
     .subscribe((response: any) => {
       this.travelMaps = response
+      this.dataSource = new MatTableDataSource(this.travelMaps)
+      this.dataSource.paginator = this.paginator
+      this.dataSource.sort = this.sort
       console.log(this.travelMaps)
-      this.loading = false
+      
     })
   }
 
@@ -236,9 +240,9 @@ export class TravelMapComponent implements OnInit {
 
   public searchMaps(){
         console.log(this.searchFormulary)
-        console.log(this.searchFormulary.value.destinyId.id)
+        /* console.log(this.searchFormulary.value.destinyId.id)
         console.log(this.searchFormulary.value.busId)
-        console.log(this.searchFormulary.value.companyId.id)
+        console.log(this.searchFormulary.value.companyId.id) */
 
         if (this.searchFormulary.value.destinyId.id !== undefined){
           console.log('chegamos aqui')
@@ -247,6 +251,9 @@ export class TravelMapComponent implements OnInit {
             .subscribe((response: any) => {
               console.log(response)
               this.travelMaps = response
+              this.dataSource = new MatTableDataSource(this.travelMaps)
+              this.dataSource.paginator = this.paginator
+              this.dataSource.sort = this.sort
               $('#modalSearch').modal('hide')
             })
         }else if(this.searchFormulary.value.companyId.id !== undefined){
@@ -255,6 +262,9 @@ export class TravelMapComponent implements OnInit {
             .subscribe((response: any) => {
               console.log(response)
               this.travelMaps = response
+              this.dataSource = new MatTableDataSource(this.travelMaps)
+              this.dataSource.paginator = this.paginator
+              this.dataSource.sort = this.sort
               $('#modalSearch').modal('hide')
             })
         }else if(this.searchFormulary.value.busId !== ''){
@@ -263,6 +273,9 @@ export class TravelMapComponent implements OnInit {
             .subscribe((response: any) => {
               console.log(response)
               this.travelMaps = response
+              this.dataSource = new MatTableDataSource(this.travelMaps)
+              this.dataSource.paginator = this.paginator
+              this.dataSource.sort = this.sort
               $('#modalSearch').modal('hide')
             })
         }else{
@@ -270,6 +283,9 @@ export class TravelMapComponent implements OnInit {
         .subscribe((response: any) => {
           console.log(response)
           this.travelMaps = response
+          this.dataSource = new MatTableDataSource(this.travelMaps)
+          this.dataSource.paginator = this.paginator
+          this.dataSource.sort = this.sort
           console.log(this.travelMaps)
           $('#modalSearch').modal('hide')
         })

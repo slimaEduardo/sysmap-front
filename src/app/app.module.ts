@@ -37,6 +37,9 @@ import { NotificationService } from './services/notification.service';
 import { MapsPeriodComponent } from './pages/maps-period/maps-period.component';
 import { UserComponent } from './pages/user/user.component';
 import { CategoriasComponent } from './pages/categorias/categorias.component';
+import {MatTableModule} from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   imports: [
@@ -56,6 +59,9 @@ import { CategoriasComponent } from './pages/categorias/categorias.component';
     AutoCompleteModule,
     MatAutocompleteModule,
     MatFormFieldModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     })

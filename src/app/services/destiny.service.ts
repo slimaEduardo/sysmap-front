@@ -39,8 +39,8 @@ export class DestinyService{
     
     constructor(public http: HttpClient){}
 
-    public getCompanies(page: number, linesPerPage: number, orderBy: string, direction: string): Observable<Page>{
-    return this.http.get<Page>(`${API_CONFIG.baseUrl}/destinies?page=${page}&linesPerPage=${linesPerPage}&orderBy=${orderBy}&direction=${direction}`)
+    public getDestinies(): Observable<Destiny[]>{
+    return this.http.get<Destiny[]>(`${API_CONFIG.baseUrl}/destinies`)
 }  
 
 public insert(obj: Destiny){
