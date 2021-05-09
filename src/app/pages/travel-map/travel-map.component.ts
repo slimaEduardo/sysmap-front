@@ -240,10 +240,6 @@ export class TravelMapComponent implements OnInit {
 
   public searchMaps(){
         console.log(this.searchFormulary)
-        /* console.log(this.searchFormulary.value.destinyId.id)
-        console.log(this.searchFormulary.value.busId)
-        console.log(this.searchFormulary.value.companyId.id) */
-
         if (this.searchFormulary.value.destinyId.id !== undefined){
           console.log('chegamos aqui')
           this.travelMapService.listMapsPeriodDestiny(this.searchFormulary.value.initialDate, 

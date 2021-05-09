@@ -1,10 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { User, UserNew } from 'app/models/user.model';
+import { NotificationService } from 'app/services/notification.service';
 import { UserService } from 'app/services/user.service';
+
+declare var $: any;
 
 @Component({
   selector: 'app-user',
@@ -18,7 +21,7 @@ export class UserComponent implements OnInit {
     id: new FormControl(''),
     name: new FormControl(''),
     userName: new FormControl(''),
-    profileId: new FormControl('' , [Validators.required]),
+    role: new FormControl('' , [Validators.required]),
     password: new FormControl('' , [Validators.required])
     })
 
@@ -27,9 +30,11 @@ export class UserComponent implements OnInit {
   public users: User[]
   public user: User
   public show: boolean = true
+  public errors: string[]=[]
 
-  constructor(public userService: UserService) { }
-
+  constructor(public userService: UserService, public notificationService: NotificationService) { }
+  
+  @Output() public updateList: EventEmitter<any> = new EventEmitter<any>()
   @ViewChild(MatPaginator) paginator: MatPaginator
   @ViewChild(MatSort) sort: MatSort
 
@@ -53,13 +58,15 @@ export class UserComponent implements OnInit {
     this.userService.insert(this.formulary.value)
         .subscribe(response => {
           console.log(response)
-          
+          $('#modalAdd').modal('hide')
+          this.notificationService.showNotification("Usuário criado com suecesso", 'success', 'top')
         },
         error => {
           console.log(error)
-          
+          $('#modalAdd').modal('hide')
+          this.notificationService.showNotification(`Revise as opções inseridas: ${this.errors}`, 'danger', 'bottom')
         })
-        
+        this.updateList.emit(this.att())
   }
 
   public listObj(id: number){
@@ -70,7 +77,7 @@ export class UserComponent implements OnInit {
         id: new FormControl(this.user.id),
         name: new FormControl(this.user.name),
         userName: new FormControl(this.user.userName),
-        profileId: new FormControl(this.user.userProfile , [Validators.required]),
+        role: new FormControl(this.user.userProfile , [Validators.required]),
         password: new FormControl(this.user.password , [Validators.required])
       })
     },
@@ -84,11 +91,11 @@ export class UserComponent implements OnInit {
     this.userService.delete(this.formulary.value.id)
     .subscribe(response => {
       console.log(response)
-      //this.notificationService.showNotification("Mapa excluído com suecesso", 'success','top')
+      this.notificationService.showNotification("Usuário excluído com suecesso", 'success','top')
     },
     error => {
-      console.log("Erro: ",error.error.msg)
-     // this.notificationService.showNotification( error.error.msg, 'danger','top')
+      console.log("Erro: ",error)
+      this.notificationService.showNotification( error.error.msg, 'danger','top')
     })
     this.att()
   }
@@ -99,24 +106,26 @@ export class UserComponent implements OnInit {
     this.userService.update(this.formulary.value.id,aux)
       .subscribe(response => {
         console.log(response)
-       
+        $('#modalUpdate').modal('hide')
+        this.notificationService.showNotification("Usuário criado com suecesso", 'success', 'top')
       },
       error => {
         console.log(error)
-       
+        $('#modalAdd').modal('hide')
+          this.notificationService.showNotification(`Revise as opções inseridas: ${this.errors}`, 'danger', 'bottom')
       })
-      
+      this.updateList.emit(this.att())
   }
 
-  public att() {
+  public att() : void{
+    console.log('chegou aqui')
     this.listUsers() // para atualizar o dados do array
       this.show = false // tirar tabela do DOM
         setTimeout(() => {
           this.show = true // retorna com tabela para o DOM e os dados atualizados do
           this.listUsers()
-        }, 50);
+        }, 100);
     }
-  
   public resetFormulary(){
     this.formulary.reset()
     

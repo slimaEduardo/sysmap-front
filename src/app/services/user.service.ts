@@ -31,7 +31,7 @@ export class UserService{
         return this.http.delete(`${API_CONFIG.baseUrl}/users/${id}`,
         {
         observe: 'response',
-        responseType: 'text'
+        responseType: 'json'
         });
     }
 
@@ -39,7 +39,7 @@ export class UserService{
         return this.http.put(`${API_CONFIG.baseUrl}/users/${id}`, aux,
     {
       observe: 'response',
-      responseType: 'text'
+      responseType: 'json'
     });
       }
 }

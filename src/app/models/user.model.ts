@@ -7,8 +7,8 @@ export interface User{
 }
 
 export enum UserProfile{
-    ADMIN = 0,
-    USER = 1
+    ADMIN = 1,
+    USER = 0
 }
 
 export interface UserNew{
