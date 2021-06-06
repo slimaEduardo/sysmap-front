@@ -108,27 +108,25 @@
                             <label>Filtre por:</label>
                         </div>
                         <div>
-                        <div class="form-check form-check-inline">
+                        <!-- <div class="form-check form-check-inline">
                             <input  type="radio" name="inlineRadioOptions"  value="option1" 
                             onclick="document.getElementById('teste').style.display='block' ; document.getElementById('teste1').style.display='none'; 
                             document.getElementById('teste2').style.display='none';">
                             <label class="form-check-label" for="inlineRadio1">Categoria</label>
-                          </div>
+                          </div> -->
                           <div class="form-check form-check-inline">
                             <input  type="radio" name="inlineRadioOptions" value="option2" 
-                            onclick="document.getElementById('teste1').style.display='block'; document.getElementById('teste').style.display='none'; 
-                            document.getElementById('teste2').style.display='none';">
+                            onclick="document.getElementById('reportDestiny').style.display='block'; document.getElementById('reportCompany').style.display='none';">
                             <label class="form-check-label" for="inlineRadio2">Destino</label>
                           </div>
                           <div class="form-check form-check-inline">
                             <input  type="radio" name="inlineRadioOptions"  value="option3" 
-                            onclick="document.getElementById('teste2').style.display='block'; document.getElementById('teste').style.display='none'; 
-                            document.getElementById('teste1').style.display='none';">
+                            onclick="document.getElementById('reportCompany').style.display='block'; document.getElementById('reportDestiny').style.display='none';">
                             <label class="form-check-label" for="inlineRadio3">Empresa</label>
                           </div>
                           </div>
                     <div class="row">
-                        <div class="col-sm-6 hidden" id="teste1">
+                        <div class="col-sm-6 hidden" id="reportDestiny">
                        <!--  <label for="recipient-name" class="col-form-label">Destino</label> -->
                         <p-autoComplete formControlName="destinyId" [suggestions]="destinies" 
                         (completeMethod)="searchDestiny($event.query)" field="name" id="codigo" ngmodel="testInput">
@@ -137,14 +135,7 @@
                     </div>
                     
                     <div class="row">
-                        <div class="col-sm-6 hidden" id="teste">
-                           <!--  <label for="recipient-name" class="col-form-label">Tipo de ônibus</label> -->
-                            <select class="custom-select"  formControlName="busId">
-                            <option *ngFor="let category of busCategories" [ngValue]="category.id">{{ category.name }}</option>
-                            </select>                            
-                        </div>
-                   
-                        <div class="col-sm-6 hidden" id="teste2">
+                        <div class="col-sm-6 hidden" id="reportCompany">
                             <!-- <label for="recipient-name" class="col-form-label">Empresa</label> -->
                             <p-autoComplete id="_company" formControlName="companyId" [suggestions]="companies" 
                                 (completeMethod)="searchCompany($event.query)" field="name">

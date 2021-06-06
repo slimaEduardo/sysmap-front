@@ -241,7 +241,6 @@ export class TravelMapComponent implements OnInit {
   public searchMaps(){
         console.log(this.searchFormulary)
         if (this.searchFormulary.value.destinyId.id !== undefined){
-          console.log('chegamos aqui')
           this.travelMapService.listMapsPeriodDestiny(this.searchFormulary.value.initialDate, 
             this.searchFormulary.value.finalDate,this.searchFormulary.value.destinyId.id )
             .subscribe((response: any) => {
@@ -286,25 +285,32 @@ export class TravelMapComponent implements OnInit {
           $('#modalSearch').modal('hide')
         })
       }
+      
       this.searchFormulary.reset()
   }
 
   public reportMaps(){
-    this.travelMapService.reportMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate)
+    console.log(this.searchFormulary.value)
+    /* this.travelMapService.reportMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate)
     $('#modalReport').modal('hide')
-    this.searchFormulary.reset()
-        /* .subscribe((response: any) => {
-          console.log(response)
-          $('#modalReport').modal('hide')
-          window.open(response.body)
-          this.notificationService.showNotification("Relatório criado com suecesso", 'success', 'top')
-        },
-        error => {
-          console.log("Erro: ",error.error.msg)
-          $('#modalReport').modal('hide')
-          this.notificationService.showNotification( error.error.msg, 'danger','top')
-        })
-        this.searchFormulary.reset() */
+    this.searchFormulary.reset() */
+
+    if (this.searchFormulary.value.destinyId.id !== undefined){
+      this.travelMapService.reportMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate,
+                                              2, this.searchFormulary.value.destinyId.id)
+                                              
+    }else if(this.searchFormulary.value.companyId.id !== undefined){
+      this.travelMapService.reportMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate,
+        1, this.searchFormulary.value.companyId.id)
+        
+    }else{
+      this.travelMapService.reportMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate,
+        0, 0)      
+        
+    }
+  $('#modalReport').modal('hide')
+  this.searchFormulary.reset()
+
   }
 
 }
