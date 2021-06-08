@@ -240,7 +240,7 @@ export class TravelMapComponent implements OnInit {
 
   public searchMaps(){
         console.log(this.searchFormulary)
-        if (this.searchFormulary.value.destinyId.id !== undefined){
+        if (this.searchFormulary.value.destinyId != null && this.searchFormulary.value.destinyId.id !== undefined){
           this.travelMapService.listMapsPeriodDestiny(this.searchFormulary.value.initialDate, 
             this.searchFormulary.value.finalDate,this.searchFormulary.value.destinyId.id )
             .subscribe((response: any) => {
@@ -285,8 +285,8 @@ export class TravelMapComponent implements OnInit {
           $('#modalSearch').modal('hide')
         })
       }
-      
       this.searchFormulary.reset()
+      console.log(this.searchFormulary)
   }
 
   public reportMaps(){
@@ -295,7 +295,7 @@ export class TravelMapComponent implements OnInit {
     $('#modalReport').modal('hide')
     this.searchFormulary.reset() */
 
-    if (this.searchFormulary.value.destinyId.id !== undefined){
+    if (this.searchFormulary.value.destinyId != null && this.searchFormulary.value.destinyId.id !== undefined){
       this.travelMapService.reportMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate,
                                               2, this.searchFormulary.value.destinyId.id)
                                               
