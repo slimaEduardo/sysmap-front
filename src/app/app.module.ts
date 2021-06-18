@@ -40,6 +40,7 @@ import { CategoriasComponent } from './pages/categorias/categorias.component';
 import {MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   imports: [
@@ -76,6 +77,7 @@ import { MatSortModule } from '@angular/material/sort';
     MapsPeriodComponent,
     UserComponent,
     CategoriasComponent,
+    LoginComponent,
 
   ],
   providers: [NotificationService],
