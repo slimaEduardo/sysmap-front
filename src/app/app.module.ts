@@ -41,6 +41,9 @@ import {MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { LoginComponent } from './pages/login/login.component';
+import { AuthService } from './services/auth.service';
+import { StorageService } from './services/storage.service';
+import { AuthGuard } from './services/auth-guard.service';
 
 @NgModule({
   imports: [
@@ -63,9 +66,7 @@ import { LoginComponent } from './pages/login/login.component';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
-    })
+    ReactiveFormsModule,
   ],
   declarations: [
     AppComponent,
@@ -80,7 +81,10 @@ import { LoginComponent } from './pages/login/login.component';
     LoginComponent,
 
   ],
-  providers: [NotificationService],
+  providers: [NotificationService,
+    AuthService,
+    StorageService,
+  AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

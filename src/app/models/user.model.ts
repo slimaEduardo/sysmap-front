@@ -18,3 +18,14 @@ export interface UserNew{
     password: string
     profileId: number
 }
+
+export class UserLogin{
+
+    userName: string
+    password: string
+}
+
+export interface LocalUser {
+    token: string;
+    userName: string
+} 
