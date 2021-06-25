@@ -1,0 +1,184 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <button type="button" class="btn btn-round btn-fill btn-success" data-toggle="modal" data-target="#modalAdd" (click)="resetFormulary()">novo usuário</button>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-success">
+                        <h4 class="card-title ">Usuários</h4>
+                        <p class="card-category">Usuários cadstrados</p>
+                    </div>
+                    <div class="header">
+                    </div>
+                    <table mat-table [dataSource]="dataSource" matSort class="table table-hover table-striped">
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="userName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuário</th>
+                            <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="password">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Senha</th>
+                            <td mat-cell *matCellDef="let element"> *********** </td>
+                        </ng-container>
+                        <ng-container matColumnDef="userProfile">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Perfil</th>
+                            <td mat-cell *matCellDef="let element" >
+                                <span *ngIf="element.userProfile == 1">ADMIN</span>
+                                <span *ngIf="element.userProfile == 0">USER</span>
+                            </td>
+                            </ng-container>
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef> Ações </th>
+                            <td mat-cell *matCellDef="let element" class="dropdown">
+                                <a href="#" class="dropdown" data-toggle="dropdown">
+                                    <img src="../../assets/img/outline_view_headline_black_18.png" ><b class="btn-simple btn-icon"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a data-toggle="modal" data-target="#modalUpdate" (click)="listObj(element.id)">Editar</a></li>
+                                    <li><a data-toggle="modal"  data-target="#modalDel"  (click)="listObj(element.id)">Excluir</a></li>
+                                </ul>                               
+                            </td>
+                        </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para inserir usuários -->
+
+<div class="modal modal-angular fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <form [formGroup]="formulary" (ngSubmit)="addObj()">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Novo Usuário</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+                <div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Nome</label>
+                            <input type="text" class="form-control" formControlName="name" required>
+                            <small *ngIf="formulary.get('name').invalid && formulary.get('name').touched" class="form-text text-danger">Nome necessário</small>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Nome de usuário</label>
+                            <input type="text" class="form-control" formControlName="userName" required>
+                            <small *ngIf="formulary.get('userName').invalid && formulary.get('userName').touched" class="form-text text-danger">Usuário necessário</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Tipo de usuário</label>
+                            <select class="custom-select"  formControlName="role" required>
+                                <option selected value="ADMIN">ADMIN</option>
+                                <option value="USER">USER</option>
+                            </select>                            
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Senha</label>
+                            <input type="password" class="form-control" formControlName="password">
+                            <small *ngIf="formulary.get('password').invalid && formulary.get('password').touched" class="form-text text-danger">Senha necessária</small> 
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-info" [disabled]="!formulary.valid">Adicionar</button>
+        </div>
+    </form>
+    </div>
+    </div>
+</div>
+
+<!-- Modal de Edição de Mapas-->
+
+<div class="modal modal-angular fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <form [formGroup]="formulary">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Editar Mapa</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div>
+                
+                    
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="recipient-name" class="col-form-label">Nome</label>
+                                <input type="text" class="form-control" formControlName="name">
+                            </div>
+                        
+                            <div class="col-sm-6">
+                                <label for="recipient-name" class="col-form-label">Nome de usuário</label>
+                                <input type="text" class="form-control" formControlName="userName">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="recipient-name" class="col-form-label">Tipo de usuário</label>
+                                <select class="custom-select"  formControlName="role" required>
+                                    <option selected value="1">ADMIN</option>
+                                    <option value="0">USER</option>
+                                </select>   
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="recipient-name" class="col-form-label">Senha</label>
+                                <input type="password" class="form-control" formControlName="password" required>
+                                <small *ngIf="formulary.get('password').invalid && formulary.get('password').touched" class="form-text text-danger">Senha inválida</small>
+                            </div>
+                        </div>
+                    
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-info" (click)="edit(id)" [disabled]="!formulary.valid">Editar</button>
+        </div>
+        </form>
+    </div>
+    </div>
+</div>
+
+<!-- Modal para excluir usuários -->
+
+<div class="modal fade" id="modalDel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Deletar </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        Tem certeza?
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="delete()" data-dismiss="modal">Apagar</button>
+        </div>
+    </div>
+</div>
+

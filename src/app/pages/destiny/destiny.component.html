@@ -1,0 +1,164 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <button type="button" class="btn btn-round btn-fill btn-success" data-toggle="modal" data-target="#modalAdd" (click)="resetFormulary()">novo destino</button>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-success">
+                        <h4 class="card-title ">Destinos</h4>
+                        <p class="card-category">Destinos habilitados para viagem</p>
+                    </div>
+                    <div class="header">                        
+                    </div>
+                    <div class="p-d-flex">
+                    </div>
+                    <table mat-table [dataSource]="dataSource" matSort class="table table-hover table-striped">
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="distance">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Distância</th>
+                            <td mat-cell *matCellDef="let element"> {{element.distance}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Linha</th>
+                            <td mat-cell *matCellDef="let element"> {{element.category.name}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef> Ações </th>
+                            <td mat-cell *matCellDef="let element" class="dropdown">
+                                <a href="#" class="dropdown" data-toggle="dropdown">
+                                    <img src="../../assets/img/outline_view_headline_black_18.png" ><b class="btn-simple btn-icon"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a data-toggle="modal" data-target="#modalUpdate" (click)="listObj(element.id)">Editar</a></li>
+                                    <li><a data-toggle="modal"  data-target="#modalDel"  (click)="listObj(element.id)">Excluir</a></li>
+                                </ul>                               
+                            </td>
+                        </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para inserir Empresa -->
+
+<div class="modal modal-angular fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <form [formGroup]="formulary" (ngSubmit)="addObj()">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Novo Destino</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            
+                <div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="recipient-name" class="col-form-label">Nome da cidade</label>
+                            <input type="text" class="form-control" formControlName="name" required>
+                            <small *ngIf="formulary.get('name').invalid && formulary.get('name').touched" class="form-text text-danger">Nome inválido</small>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Distância (em Km)</label>
+                            <input type="number" min="1"  pattern="\d+" class="form-control" formControlName="distance" required>
+                            <small *ngIf="formulary.get('distance').invalid && formulary.get('distance').touched" class="form-text text-danger">Distância inválida</small>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Tipo de Linha</label>
+                            <select class="custom-select"  formControlName="categoryId" required>
+                            <option *ngFor="let typeLine of typeLines" [ngValue]="typeLine.id">{{ typeLine.name }}</option>
+                            </select>
+                            <small *ngIf="formulary.get('categoryId').invalid && formulary.get('categoryId').touched" class="form-text text-danger">Escolha o tipo de linha</small>                           
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-info" [disabled]="!formulary.valid">Adicionar</button>
+        </div>
+    </form>
+    </div>
+    </div>
+</div>
+
+<!-- [disabled]="!formulary.valid" -->
+
+<!-- Modal de Edição de empresas-->
+
+<div class="modal modal-angular fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <form [formGroup]="formulary">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Editar Empresa</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="recipient-name" class="col-form-label">Nome da Cidade</label>
+                        <input type="text" class="form-control" data-whatever="destiny.name" placeholder="Nome do Destino" formControlName="name" required>
+                        <small *ngIf="formulary.get('name').invalid && formulary.get('name').touched" class="form-text text-danger">Nome inválido</small>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="recipient-name" class="col-form-label">Distância (em Km)</label>
+                        <input type="number" min="1"  pattern="\d+" class="form-control" data-whatever="destiny.distance" placeholder="Distância" formControlName="distance" required>
+                        <small *ngIf="formulary.get('distance').invalid && formulary.get('distance').touched" class="form-text text-danger">Distância inválida</small>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="recipient-name" class="col-form-label">Tipo de Linha</label>
+                            <select  class="custom-select" id="categoryId" formControlName="categoryId" required>
+                            <option *ngFor="let typeLine of typeLines" [value]="typeLine.id">{{ typeLine.name }}</option>
+                        </select>
+                        <small *ngIf="formulary.get('categoryId').invalid && formulary.get('categoryId').touched" class="form-text text-danger">Escolha o tipo de linha</small>  
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-info" (click)="edit(destiny.id)" [disabled]="!formulary.valid">Editar</button>
+        </div>
+        </form>
+    </div>
+    </div>
+</div>
+
+<!-- Modal para excluir empresas -->
+
+<div class="modal fade" id="modalDel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Deletar </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        Tem certeza?
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="delete(destiny.id)" data-dismiss="modal">Apagar</button>
+        </div>
+    </div>
+</div>

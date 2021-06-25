@@ -1,41 +1,42 @@
 <div class="main-content">
     <div class="container-fluid">
-        <button type="button" class="btn btn-round btn-fill btn-success" data-toggle="modal" data-target="#modalAddComp" (click)="resetFormulary()">nova empresa</button>
+        <button type="button" class="btn btn-round btn-fill btn-success" data-toggle="modal" data-target="#modalAddComp" (click)="resetFormulary()">nova categoria</button>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-success">
-                        <h4 class="card-title ">Empresas</h4>
-                        <p class="card-category"> Empresas aptas para operar</p>
+                        <h4 class="card-title ">Categorias</h4>
+                        <p class="card-category">Categorias de ônibus</p>
                     </div>
                     <div class="header">
+                        <!-- <h4 class="title">Empresas</h4> -->
                     </div>
-                        <table mat-table [dataSource]="dataSource" matSort class="table table-hover table-striped">
+                    <table mat-table [dataSource]="dataSource" matSort class="table table-hover table-striped">
                             
-                            <ng-container matColumnDef="id">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
-                                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="name">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
-                                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="actions">
-                                <th mat-header-cell *matHeaderCellDef> Ações </th>
-                                <td mat-cell *matCellDef="let element" class="dropdown">
-                                    <a href="#" class="dropdown" data-toggle="dropdown">
-                                        <img src="../../assets/img/outline_view_headline_black_18.png" ><b class="btn-simple btn-icon"></b>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a data-toggle="modal" data-target="#modalUpdateComp" (click)="listCompany(element.id)">Editar</a></li>
-                                        <li><a data-toggle="modal"  data-target="#modalDelComp"  (click)="listCompany(element.id)">Excluir</a></li>
-                                    </ul>                               
-                                </td>
-                            </ng-container>
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                    </table>
-                    <mat-paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons></mat-paginator>
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef> Ações </th>
+                            <td mat-cell *matCellDef="let element" class="dropdown">
+                                <a href="#" class="dropdown" data-toggle="dropdown">
+                                    <img src="../../assets/img/outline_view_headline_black_18.png" ><b class="btn-simple btn-icon"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a data-toggle="modal" data-target="#modalUpdateComp" (click)="listObj(element.id)">Editar</a></li>
+                                    <li><a data-toggle="modal"  data-target="#modalDelComp"  (click)="listObj(element.id)">Excluir</a></li>
+                                </ul>                               
+                            </td>
+                        </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons></mat-paginator>
                 </div>
             </div>
         </div>
@@ -49,7 +50,7 @@
     <div class="modal-content">
     <form [formGroup]="formulary" (ngSubmit)="addCmp()">
         <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nova Empresa</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Nova Categoria</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -82,7 +83,7 @@
     <div class="modal-content">
         <form [formGroup]="formulary">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Editar Empresa</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Editar Categoria</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -123,7 +124,7 @@
         </div>
         <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger" (click)="delete(company.id)" data-dismiss="modal">Apagar</button>
+        <button type="button" class="btn btn-danger" (click)="delete(category.id)" data-dismiss="modal">Apagar</button>
         </div>
     </div>
 </div>

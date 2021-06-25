@@ -9,17 +9,27 @@ import { map } from 'rxjs/operators'
 
 @Injectable()
 export class CompanyService{
+
+
+  listByname(name: string): Promise<Company[]>{
+    return this.http.get(`${API_CONFIG.baseUrl}/companies/search?term=${name}`)
+    .toPromise()
+    .then((response: Company[]) => response)
+  }
   delete(id: number) {
-    return this.http.delete(`${API_CONFIG.baseUrl}/companies/${id}`)
-    .subscribe(response => {
-      
+    return this.http.delete(`${API_CONFIG.baseUrl}/companies/${id}`,{
+      observe: 'response',
+      responseType: 'json'
     })
+    
   }
 
   update(id: number, aux: Company) {
-    return this.http.put(`${API_CONFIG.baseUrl}/companies/${id}`, aux)
-    .subscribe(response => {
-     }, error => {console.log(error)})
+    aux.name = aux.name.toUpperCase()
+    return this.http.put(`${API_CONFIG.baseUrl}/companies/${id}`, aux,{
+      observe: 'response',
+      responseType: 'json'
+    });
   }
 
   findById(id: number) {
@@ -28,15 +38,16 @@ export class CompanyService{
     
     constructor(public http: HttpClient){}
 
-    public getCompanies(page: number, linesPerPage: number): Observable<Page>{
-    return this.http.get<Page>(`${API_CONFIG.baseUrl}/companies?page=${page}&linesPerPage=${linesPerPage}`)
+    public getCompanies(): Observable<Company[]>{
+    return this.http.get<Company[]>(`${API_CONFIG.baseUrl}/companies`)
 }  
 
 public insert(obj: Company){
+  obj.name = obj.name.toUpperCase()
     return this.http.post(`${API_CONFIG.baseUrl}/companies`,obj,
     {
       observe: 'response',
-      responseType: 'text'
+      responseType: 'json'
     });
   }
 

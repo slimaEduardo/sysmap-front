@@ -1,0 +1,37 @@
+core.js:26882 Angular is running in development mode. Call enableProdMode() to enable production mode.
+index.js:52 [WDS] Live Reloading enabled.
+util.js:231 Google Maps JavaScript API warning: InvalidKey https://developers.google.com/maps/documentation/javascript/error-messages#invalid-key
+KA.j @ util.js:231
+(anonymous) @ js?key=YOUR-KEY-HERE:151
+invoke @ zone.js:373
+run @ zone.js:135
+(anonymous) @ zone.js:1274
+invokeTask @ zone.js:407
+runTask @ zone.js:179
+drainMicroTaskQueue @ zone.js:583
+Promise.then (async)
+scheduleMicroTask @ zone.js:566
+scheduleTask @ zone.js:397
+scheduleTask @ zone.js:222
+scheduleMicroTask @ zone.js:242
+scheduleResolveOrReject @ zone.js:1264
+resolvePromise @ zone.js:1202
+(anonymous) @ zone.js:1118
+(anonymous) @ js?key=YOUR-KEY-HERE:91
+Cf @ js?key=YOUR-KEY-HERE:93
+Ef @ js?key=YOUR-KEY-HERE:91
+(anonymous) @ js?key=YOUR-KEY-HERE:91
+(anonymous) @ js?key=YOUR-KEY-HERE:93
+(anonymous) @ js?key=YOUR-KEY-HERE:91
+Cf @ js?key=YOUR-KEY-HERE:93
+Ff @ js?key=YOUR-KEY-HERE:91
+yf.Sd @ js?key=YOUR-KEY-HERE:214
+(anonymous) @ util.js:1
+js?key=YOUR-KEY-HERE:82 Google Maps JavaScript API error: InvalidKeyMapError
+https://developers.google.com/maps/documentation/javascript/error-messages#invalid-key-map-error
+_.Re @ js?key=YOUR-KEY-HERE:82
+(anonymous) @ common.js:113
+(anonymous) @ common.js:169
+c @ common.js:99
+(anonymous) @ AuthenticationService.Authenticate?1shttp%3A%2F%2Flocalhost%3A4200%2F&4sYOUR-KEY-HERE&callback=_xdc_._npmue&key=YOUR-KEY-HERE&token=115782:1
+company.component.ts:64 HttpResponse {headers: HttpHeaders, status: 201, statusText: "OK", url: "http://localhost:8080/companies", ok: true, …}body: "{"id":113,"name":"Teste de notificação 4"}"headers: HttpHeaders {normalizedNames: Map(0), lazyUpdate: null, lazyInit: ƒ}ok: truestatus: 201statusText: "OK"type: 4url: "http://localhost:8080/companies"__proto__: HttpResponseBase

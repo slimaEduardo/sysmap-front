@@ -11,19 +11,36 @@ import { ComponentsModule } from './components/components.module';
 import { AppComponent } from './app.component';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { TableListComponent } from './table-list/table-list.component';
 import { TypographyComponent } from './typography/typography.component';
 import { IconsComponent } from './icons/icons.component';
-import { MapsComponent } from './maps/maps.component';
-import { NotificationsComponent } from './notifications/notifications.component';
+import { MapsComponent } from './pages/maps/maps.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { UpgradeComponent } from './upgrade/upgrade.component';
-import {
-  AgmCoreModule
-} from '@agm/core';
+import { AgmCoreModule } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { CompanyComponent } from './pages/company/company.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { PaginatorModule } from 'primeng/paginator';
+import {ButtonModule} from 'primeng/button';
+import {TableModule} from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+import { DestinyComponent } from './pages/destiny/destiny.component';
+import {DropdownModule} from 'primeng/dropdown';
+import { TravelMapComponent } from './pages/travel-map/travel-map.component';
+import {ListboxModule} from 'primeng/listbox';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import { NotificationService } from './services/notification.service';
+import { MapsPeriodComponent } from './pages/maps-period/maps-period.component';
+import { UserComponent } from './pages/user/user.component';
+import { CategoriasComponent } from './pages/categorias/categorias.component';
+import {MatTableModule} from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   imports: [
@@ -33,8 +50,19 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     HttpClientModule,
     ComponentsModule,
     RouterModule,
-    
+    TableModule,
+    ButtonModule,
+    PaginatorModule,
+    InputTextModule,
+    DropdownModule,
     AppRoutingModule,
+    ListboxModule,
+    AutoCompleteModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     })
@@ -44,9 +72,15 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     AdminLayoutComponent,
     CompanyComponent,
     PaginationComponent,
+    DestinyComponent,
+    TravelMapComponent,
+    MapsPeriodComponent,
+    UserComponent,
+    CategoriasComponent,
+    LoginComponent,
 
   ],
-  providers: [],
+  providers: [NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
