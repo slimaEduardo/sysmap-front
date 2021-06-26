@@ -44,6 +44,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { StorageService } from './services/storage.service';
+import { InterceptorModule } from 'interceptors/interceptor.module';
 
 @NgModule({
   imports: [
@@ -66,6 +67,7 @@ import { StorageService } from './services/storage.service';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    InterceptorModule
   ],
   declarations: [
     AppComponent,

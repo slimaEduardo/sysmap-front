@@ -14,7 +14,7 @@ export class TravelMapService{
     return this.http.delete(`${API_CONFIG.baseUrl}/maps/${id}`,
     {
       observe: 'response',
-      responseType: 'text'
+      responseType: 'json'
     });
     
   }

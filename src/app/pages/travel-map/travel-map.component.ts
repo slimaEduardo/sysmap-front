@@ -171,8 +171,8 @@ export class TravelMapComponent implements OnInit {
           this.notificationService.showNotification("Mapa excluído com suecesso", 'success','top')
         },
         error => {
-          console.log("Erro: ",error.error.msg)
-          this.notificationService.showNotification( error.error.msg, 'danger','top')
+          console.log("Erro: ",error)
+          this.notificationService.showNotification( error.error.message, 'danger','top')
         })
         this.att()
       }
