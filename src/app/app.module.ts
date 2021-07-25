@@ -45,6 +45,7 @@ import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { StorageService } from './services/storage.service';
 import { InterceptorModule } from 'interceptors/interceptor.module';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   imports: [
@@ -67,6 +68,7 @@ import { InterceptorModule } from 'interceptors/interceptor.module';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSlideToggleModule,
     InterceptorModule
   ],
   declarations: [

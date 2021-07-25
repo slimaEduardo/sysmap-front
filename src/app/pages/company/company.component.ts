@@ -26,7 +26,7 @@ export class CompanyComponent implements OnInit {
     })
 
 
-  displayedColumns: string[] = ['id', 'name', 'actions']
+  displayedColumns: string[] = ['id', 'name','status' ,'actions']
   dataSource: MatTableDataSource<Company> 
   public companies: any[] = []
   public page : Page
@@ -57,6 +57,7 @@ export class CompanyComponent implements OnInit {
     this.companyService.getCompanies()
     .subscribe(response => {
       this.companies = response
+      //console.log(response)
       this.dataSource = new MatTableDataSource(this.companies)
       this.dataSource.paginator = this.paginator
       this.dataSource.sort = this.sort
@@ -78,23 +79,13 @@ export class CompanyComponent implements OnInit {
         $('#modalAddComp').modal('hide')
   }
 
-  /* public paginate(event: LazyLoadEvent){
-  this.pageNumber = Math.floor(event.first/event.rows)
-  this.orderBy = event.sortField
-  var direction = event.sortOrder == -1 ? 'DESC' :  'ASC'
-  this.listCompanies(this.pageNumber, event.rows, this.orderBy, direction)
-  if(event.globalFilter != null){
-    console.log("chegamos aqui!")
-  } 
-  } */
-
   public edit(id: number){
     //console.log("editar", id)
     let aux: Company
     aux = this.formulary.value
     this.companyService.update(id,aux)
     .subscribe(response => {
-      console.log(response)
+      //console.log(response)
       this.notificationService.showNotification("Empresa editada com suecesso", 'success','top')
     },
     error => {
@@ -106,7 +97,7 @@ export class CompanyComponent implements OnInit {
 
   public delete(id: number){
     this.companyService.delete(id).subscribe(response => {
-      console.log(response)
+      //console.log(response)
       this.notificationService.showNotification("Empresa excluída com suecesso", 'success','top')
     },
     error => {
@@ -141,6 +132,30 @@ export class CompanyComponent implements OnInit {
       console.log(error)
       })
         
+    }
+
+    public switchStatus(id:number){
+      this.companyService.findById(id).subscribe(response => {
+        this.company = response
+        //console.log(this.company)
+        if(this.company.isActive){
+          this.company.isActive = false
+          //console.log('resultado', this.company)
+        }else{
+          this.company.isActive = true
+        }
+        //atualiza o status no banco
+        this.companyService.update(id,this.company)
+    .subscribe(response => {
+      //console.log(response)
+      this.notificationService.showNotification("Empresa editada com suecesso", 'success','top')
+    },
+    error => {
+      console.log(error)
+    })
+      })
+        
+      this.updateList.emit(this.att())
     }
 }
 
