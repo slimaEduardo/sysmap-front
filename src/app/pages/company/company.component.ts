@@ -155,7 +155,7 @@ export class CompanyComponent implements OnInit {
     })
       })
         
-      this.updateList.emit(this.att())
+      //this.updateList.emit(this.att())
     }
 }
 

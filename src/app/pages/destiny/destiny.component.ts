@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
@@ -26,7 +27,7 @@ export class DestinyComponent implements OnInit {
     categoryId: new FormControl('' , [Validators.required, Validators.minLength(2), Validators.maxLength(3), , Validators.pattern('[0-9]')])
     })
 
-  displayedColumns: string[] = ['id', 'name', 'distance','type','actions']
+  displayedColumns: string[] = ['id', 'name', 'distance','type','status','actions']
   dataSource: MatTableDataSource<Destiny> 
   public destinies: any[] = []
   public page : Page
@@ -63,24 +64,6 @@ export class DestinyComponent implements OnInit {
     this.listDestinies()
     this.listCategories()
   }
-
-  /* public paginate(event: LazyLoadEvent){
-    
-    if(event.globalFilter != null){
-      console.log("Chegamos aqui!", event.globalFilter)
-      this.destinyService.listByname(event.globalFilter)
-      .then(response => {
-        this.destinies = response
-        console.log(this.destinies)
-      })
-    }else{
-      
-    this.pageNumber = Math.floor(event.first/event.rows)
-    this.orderBy = event.sortField
-    var direction = event.sortOrder == -1 ? 'DESC' :  'ASC'
-    this.listDestinies()
-    }
-    } */
 
     public edit(id: number){
       //console.log("editar", id)
@@ -159,5 +142,27 @@ export class DestinyComponent implements OnInit {
           this.typeLines = response
           //console.log(this.typeLines)
         })
+      }
+
+      public switchStatus(id:number){
+       
+        this.destinyService.findById(id).subscribe(response => {
+          this.destiny = response
+          console.log(this.destiny)
+          if(this.destiny.isActive){
+            this.destiny.isActive = false
+          }else{
+            this.destiny.isActive = true
+          }
+        this.destinyService.updateStatus(id,this.destiny)
+      .subscribe(response => {
+        this.notificationService.showNotification("Empresa editada com suecesso", 'success','top')
+      },
+      error => {
+        console.log(error)
+      })
+        })
+          
+        
       }
 }

@@ -3,6 +3,7 @@ export interface Destiny{
     name: string
     distance: number
     category: TypeLine
+    isActive: boolean
 }
 
 export interface DestinyNew{
@@ -10,6 +11,7 @@ export interface DestinyNew{
     name: string
     distance: number
     categoryId: number
+    isActive: boolean
 }
 
 export interface TypeLine{

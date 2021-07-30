@@ -83,3 +83,11 @@
     }
   }
 }
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: #63bb67
+  ;
+}
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+  background-color: #46a44a
+  ;
+}

@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators'
 
 @Injectable()
 export class DestinyService{
+  
 
   listByname(name: any): Promise<Destiny[]>{
     return this.http.get(`${API_CONFIG.baseUrl}/destinies/search?term=${name}`)
@@ -27,6 +28,14 @@ export class DestinyService{
     aux.name = aux.name.toUpperCase()
     console.log(aux)
     return this.http.put(`${API_CONFIG.baseUrl}/destinies/${id}`, aux,{
+      observe: 'response',
+      responseType: 'json'
+    })
+    
+  }
+
+  updateStatus(id: number, destiny: Destiny) {
+    return this.http.put(`${API_CONFIG.baseUrl}/destinies/s/${id}`, destiny,{
       observe: 'response',
       responseType: 'json'
     })
