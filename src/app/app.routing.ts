@@ -11,6 +11,7 @@ import { TravelMapComponent } from './pages/travel-map/travel-map.component';
 import { UserComponent } from './pages/user/user.component';
 import { DestinyComponent } from './pages/destiny/destiny.component';
 import { AuthGuard } from './services/auth-guard.service';
+import { LineCategoriesComponent } from './pages/line-categories/line-categories.component';
 
 const routes: Routes =[
   {
@@ -25,6 +26,7 @@ const routes: Routes =[
       { pathMatch: 'full', path: 'company', component: CompanyComponent },
       { pathMatch: 'full', path: 'categorias', component: CategoriasComponent },
       { pathMatch: 'full', path: 'destiny', component: DestinyComponent },
+      { pathMatch: 'full', path: 'LineCategories', component: LineCategoriesComponent },
       { pathMatch: 'full', path: 'travelMap', component: TravelMapComponent },
       { pathMatch: 'full', path: 'user', component: UserComponent },
       ],

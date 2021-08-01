@@ -34,7 +34,6 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import { NotificationService } from './services/notification.service';
-import { MapsPeriodComponent } from './pages/maps-period/maps-period.component';
 import { UserComponent } from './pages/user/user.component';
 import { CategoriasComponent } from './pages/categorias/categorias.component';
 import {MatTableModule} from '@angular/material/table';
@@ -46,6 +45,7 @@ import { AuthService } from './services/auth.service';
 import { StorageService } from './services/storage.service';
 import { InterceptorModule } from 'interceptors/interceptor.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { LineCategoriesComponent } from './pages/line-categories/line-categories.component';
 
 @NgModule({
   imports: [
@@ -78,10 +78,11 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     PaginationComponent,
     DestinyComponent,
     TravelMapComponent,
-    MapsPeriodComponent,
+    LineCategoriesComponent,
     UserComponent,
     CategoriasComponent,
     LoginComponent,
+    LineCategoriesComponent,
 
   ],
   providers: [NotificationService,

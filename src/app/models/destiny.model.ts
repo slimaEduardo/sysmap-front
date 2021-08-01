@@ -17,4 +17,5 @@ export interface DestinyNew{
 export interface TypeLine{
     id: number
     name: string
+    isActive: boolean
 }

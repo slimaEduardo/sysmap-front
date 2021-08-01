@@ -25,4 +25,5 @@ export interface TravelMapNew{
 export interface BusCategory{
     id: number
     name: string
+    isActive: boolean
 }

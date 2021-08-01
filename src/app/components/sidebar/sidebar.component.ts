@@ -12,6 +12,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/travelMap', title: 'Mapas',  icon:'map', class: '' },
     { path: '/company', title: 'Empresas',  icon:'business', class: '' },
     { path: '/destiny', title: 'Destinos',  icon:'location_on', class: '' },
+    { path: '/LineCategories', title: 'Linhas',  icon:'directions_bus', class: '' },
     { path: '/categorias', title: 'Categorias',  icon:'copyright', class: '' },
     { path: '/user', title: 'Usuários',  icon:'person', class: '' },
     

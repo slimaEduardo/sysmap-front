@@ -3,19 +3,19 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { BusCategory } from 'app/models/travel-map.model';
-import { BusCategoryService } from 'app/services/busCategory.service';
+import { TypeLine } from 'app/models/destiny.model';
+import { LineCategoryService } from 'app/services/line-category.service';
 import { NotificationService } from 'app/services/notification.service';
 
 declare var $: any;
 
 @Component({
-  selector: 'app-categorias',
-  templateUrl: './categorias.component.html',
-  styleUrls: ['./categorias.component.css'],
-  providers: [BusCategoryService]
+  selector: 'app-line-categories',
+  templateUrl: './line-categories.component.html',
+  styleUrls: ['./line-categories.component.css'],
+  providers: [LineCategoryService]
 })
-export class CategoriasComponent implements OnInit {
+export class LineCategoriesComponent implements OnInit {
 
   public formulary: FormGroup = new FormGroup({
     id: new FormControl(''),
@@ -24,15 +24,15 @@ export class CategoriasComponent implements OnInit {
 
 
   displayedColumns: string[] = ['id', 'name','status','actions']
-  dataSource: MatTableDataSource<BusCategory> 
-  public categories: BusCategory[] = []
+  dataSource: MatTableDataSource<TypeLine> 
+  public categories: TypeLine[] = []
   public show: boolean = true
-  public category: BusCategory
+  public category: TypeLine
   
 
   @Output() public updateList: EventEmitter<any> = new EventEmitter<any>()
   
-  constructor(private categoryService:BusCategoryService, private notificationService: NotificationService) { 
+  constructor(private categoryService:LineCategoryService, private notificationService: NotificationService) { 
     
   }
 
@@ -71,7 +71,7 @@ export class CategoriasComponent implements OnInit {
   
   public edit(id: number){
     //console.log("editar", id)
-    let aux: BusCategory
+    let aux: TypeLine
     aux = this.formulary.value
     this.categoryService.update(id,aux)
     .subscribe(response => {
@@ -147,5 +147,5 @@ export class CategoriasComponent implements OnInit {
         
       //this.updateList.emit(this.att())
     }
-    
+
 }
