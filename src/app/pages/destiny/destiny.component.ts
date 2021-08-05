@@ -137,7 +137,7 @@ export class DestinyComponent implements OnInit {
       }
 
       public listCategories(){
-        this.destinyService.listCategories()
+        this.destinyService.listActivesCategories()
         .then(response => {
           this.typeLines = response
           //console.log(this.typeLines)

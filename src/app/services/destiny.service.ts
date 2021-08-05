@@ -9,6 +9,14 @@ import { map } from 'rxjs/operators'
 
 @Injectable()
 export class DestinyService{
+  listActivesCategories() {
+    return this.http.get(`${API_CONFIG.baseUrl}/lines/active`)
+      .toPromise()
+      .then((response: any) => {  
+        return response
+          
+      })
+  }
   
 
   listByname(name: any): Promise<Destiny[]>{
