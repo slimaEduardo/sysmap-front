@@ -297,15 +297,62 @@ export class TravelMapComponent implements OnInit {
 
     if (this.searchFormulary.value.destinyId != null && this.searchFormulary.value.destinyId.id !== undefined){
       this.travelMapService.reportMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate,
-                                              2, this.searchFormulary.value.destinyId.id)
-                                              
+      2, this.searchFormulary.value.destinyId.id).subscribe(x => {
+        console.log(x)
+        const blob = new Blob([x], {type: 'application/pdf'})
+        if(window.navigator && window.navigator.msSaveOrOpenBlob){
+        window.navigator.msSaveOrOpenBlob
+        return
+        }
+        const data = window.URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = data
+        link.download = 'report.pdf'
+        link.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}))
+        setTimeout(function(){
+        window.URL.revokeObjectURL(data)
+        link.remove()
+        }, 100)
+      })                                                   
     }else if(this.searchFormulary.value.companyId.id !== undefined){
       this.travelMapService.reportMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate,
-        1, this.searchFormulary.value.companyId.id)
+        1, this.searchFormulary.value.companyId.id).subscribe(x => {
+          console.log(x)
+          const blob = new Blob([x], {type: 'application/pdf'})
+          if(window.navigator && window.navigator.msSaveOrOpenBlob){
+            window.navigator.msSaveOrOpenBlob
+            return
+          }
+          const data = window.URL.createObjectURL(blob)
+          const link = document.createElement('a')
+          link.href = data
+          link.download = 'report.pdf'
+          link.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}))
+          setTimeout(function(){
+            window.URL.revokeObjectURL(data)
+            link.remove()
+          }, 100)
+        })     
         
     }else{
       this.travelMapService.reportMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate,
-        0, 0)      
+        0, 0).subscribe(x => {
+          console.log(x)
+          const blob = new Blob([x], {type: 'application/pdf'})
+          if(window.navigator && window.navigator.msSaveOrOpenBlob){
+            window.navigator.msSaveOrOpenBlob
+            return
+          }
+          const data = window.URL.createObjectURL(blob)
+          const link = document.createElement('a')
+          link.href = data
+          link.download = 'report.pdf'
+          link.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}))
+          setTimeout(function(){
+            window.URL.revokeObjectURL(data)
+            link.remove()
+          }, 100)
+        })      
         
     }
   $('#modalReport').modal('hide')

@@ -5,6 +5,7 @@ import { API_CONFIG } from "app/config/api.config";
 import { Page } from "app/models/page";
 import { TravelMap, TravelMapNew } from "app/models/travel-map.model";
 import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Injectable()
 export class TravelMapService{
@@ -87,12 +88,12 @@ public insert(obj: TravelMapNew){
       
   }
   
-  reportMapsPeriod(start: any, end: any, term: number, termId: number) {
+  reportMapsPeriod(start: any, end: any, term: number, termId: number): any {
     console.log(term, termId)
     let _start = this.datepipe.transform(start, 'ddMMyyyy')
         let _end = this.datepipe.transform(end,'ddMMyyyy') //transforma as datas em um valor que a api vai processar
-    window.open(`${API_CONFIG.baseUrl}/maps/report?start=${_start}&end=${_end}&param=${term}&paramId=${termId}`, "_blank")
-    
+    //window.open(`${API_CONFIG.baseUrl}/maps/report?start=${_start}&end=${_end}&param=${term}&paramId=${termId}`, "_blank")
+    return this.http.get(`${API_CONFIG.baseUrl}/maps/report?start=${_start}&end=${_end}&param=${term}&paramId=${termId}`,{responseType: 'blob'})
   }
 
 }
