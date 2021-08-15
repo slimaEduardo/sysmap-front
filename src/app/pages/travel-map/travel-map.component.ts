@@ -18,6 +18,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
 declare var $: any;
+const date = new Date();
 
 @Component({
   selector: 'app-travel-map',
@@ -89,6 +90,7 @@ export class TravelMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(date.getTime())
     this.listMaps()
     
     this.listCategories()
@@ -307,7 +309,7 @@ export class TravelMapComponent implements OnInit {
         const data = window.URL.createObjectURL(blob)
         const link = document.createElement('a')
         link.href = data
-        link.download = 'report.pdf'
+        link.download = `Report${date.getTime()}.pdf`
         link.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}))
         setTimeout(function(){
         window.URL.revokeObjectURL(data)
@@ -326,7 +328,7 @@ export class TravelMapComponent implements OnInit {
           const data = window.URL.createObjectURL(blob)
           const link = document.createElement('a')
           link.href = data
-          link.download = 'report.pdf'
+          link.download = `Report${date.getTime()}.pdf`
           link.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}))
           setTimeout(function(){
             window.URL.revokeObjectURL(data)
@@ -346,7 +348,7 @@ export class TravelMapComponent implements OnInit {
           const data = window.URL.createObjectURL(blob)
           const link = document.createElement('a')
           link.href = data
-          link.download = 'report.pdf'
+          link.download = `Report${date.getTime()}.pdf`
           link.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}))
           setTimeout(function(){
             window.URL.revokeObjectURL(data)
