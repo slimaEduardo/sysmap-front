@@ -5,6 +5,7 @@
     </div>
     <div class="main-panel">
         <app-navbar></app-navbar>
+        <div *ngIf="showLoadingIndicator">Loading...</div>
         <router-outlet></router-outlet>
         <div *ngIf="isMaps('maps')">
             <app-footer></app-footer>
