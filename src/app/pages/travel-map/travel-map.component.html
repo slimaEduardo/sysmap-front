@@ -25,20 +25,25 @@
                         <!-- <h4 class="title">Empresas</h4> -->
                     </div>
 
-                    <div class="lds-default" *ngIf="showLoadingIndicator">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
+                   
+                    <!-- <div  *ngIf="showLoadingIndicator">Loading</div> -->
+                   <!--  <mat-spinner class="lds-default" *ngIf="showLoadingIndicator"></mat-spinner> -->
+                    <div>
+
+                        <div class="lds-default" *ngIf="showLoadingIndicator">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
 
                     <table mat-table [dataSource]="dataSource" matSort class="table table-hover table-striped">
                         <ng-container matColumnDef="id">
@@ -87,6 +92,7 @@
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
+                </div>
                     <mat-paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons></mat-paginator>
                 </div>
             </div>

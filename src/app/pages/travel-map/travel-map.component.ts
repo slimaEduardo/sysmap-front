@@ -71,17 +71,17 @@ export class TravelMapComponent implements OnInit {
     private companyService: CompanyService,
     private notificationService: NotificationService,
     private _router: Router
-    ) {
-     /*  this._router.events.subscribe((routerEvent: Event) => {
-        if (routerEvent instanceof NavigationStart) {
-          this.showLoadingIndicator = true
-        }
-  
-        if (routerEvent instanceof NavigationEnd) {
-          this.showLoadingIndicator = false
-        }
-  
-      }); */
+  ) {
+    this._router.events.subscribe((routerEvent: Event) => {
+      if (routerEvent instanceof NavigationStart) {
+        this.showLoadingIndicator = true
+      }
+
+      if (routerEvent instanceof NavigationEnd) {
+        this.showLoadingIndicator = false
+      }
+
+    });
 
   }
 
@@ -102,10 +102,8 @@ export class TravelMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.showLoadingIndicator)
     this.listMaps()
     this.listCategories()
-
   }
 
   /* public paginate(event: LazyLoadEvent){
@@ -149,12 +147,14 @@ export class TravelMapComponent implements OnInit {
   }
 
   public att() {
+    this.showLoadingIndicator = true
     this.listMaps() // para atualizar o dados do array
     this.show = false // tirar tabela do DOM
     setTimeout(() => {
-      this.show = true // retorna com tabela para o DOM e os dados atualizados do
+      this.show = true // retorna com tabela para o DOM e os dados atualizados
       this.listMaps()
     }, 50);
+    this.showLoadingIndicator = false
   }
 
   public addObj() {
@@ -252,7 +252,10 @@ export class TravelMapComponent implements OnInit {
   }
 
   public searchMaps() {
-    console.log(this.searchFormulary)
+
+    console.log(this.showLoadingIndicator)
+    $('#modalSearch').modal('hide')
+    this.showLoadingIndicator = true
     if (this.searchFormulary.value.destinyId != null && this.searchFormulary.value.destinyId.id !== undefined) {
       this.travelMapService.listMapsPeriodDestiny(this.searchFormulary.value.initialDate,
         this.searchFormulary.value.finalDate, this.searchFormulary.value.destinyId.id)
@@ -262,7 +265,8 @@ export class TravelMapComponent implements OnInit {
           this.dataSource = new MatTableDataSource(this.travelMaps)
           this.dataSource.paginator = this.paginator
           this.dataSource.sort = this.sort
-          $('#modalSearch').modal('hide')
+          this.showLoadingIndicator = false
+          // $('#modalSearch').modal('hide')
         })
     } else if (this.searchFormulary.value.companyId.id !== undefined) {
       this.travelMapService.listMapsPeriodCompany(this.searchFormulary.value.initialDate,
@@ -273,7 +277,8 @@ export class TravelMapComponent implements OnInit {
           this.dataSource = new MatTableDataSource(this.travelMaps)
           this.dataSource.paginator = this.paginator
           this.dataSource.sort = this.sort
-          $('#modalSearch').modal('hide')
+          this.showLoadingIndicator = false
+          // $('#modalSearch').modal('hide')
         })
     } else if (this.searchFormulary.value.busId !== '') {
       this.travelMapService.listMapsPeriodBusCategory(this.searchFormulary.value.initialDate,
@@ -284,9 +289,11 @@ export class TravelMapComponent implements OnInit {
           this.dataSource = new MatTableDataSource(this.travelMaps)
           this.dataSource.paginator = this.paginator
           this.dataSource.sort = this.sort
-          $('#modalSearch').modal('hide')
+          this.showLoadingIndicator = false
+          //$('#modalSearch').modal('hide')
         })
     } else {
+
       this.travelMapService.listMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate)
         .subscribe((response: any) => {
           console.log(response)
@@ -295,9 +302,11 @@ export class TravelMapComponent implements OnInit {
           this.dataSource.paginator = this.paginator
           this.dataSource.sort = this.sort
           console.log(this.travelMaps)
-          $('#modalSearch').modal('hide')
+          this.showLoadingIndicator = false
+          // $('#modalSearch').modal('hide')
         })
     }
+    //this.showLoadingIndicator = false
     this.searchFormulary.reset()
     console.log(this.searchFormulary)
   }

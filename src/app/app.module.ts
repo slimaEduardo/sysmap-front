@@ -46,6 +46,7 @@ import { StorageService } from './services/storage.service';
 import { InterceptorModule } from 'interceptors/interceptor.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { LineCategoriesComponent } from './pages/line-categories/line-categories.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
@@ -69,7 +70,8 @@ import { LineCategoriesComponent } from './pages/line-categories/line-categories
     MatPaginatorModule,
     MatSortModule,
     MatSlideToggleModule,
-    InterceptorModule
+    InterceptorModule,
+    MatProgressSpinnerModule,
   ],
   declarations: [
     AppComponent,
