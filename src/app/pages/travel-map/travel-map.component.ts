@@ -142,7 +142,7 @@ export class TravelMapComponent implements OnInit {
           console.log(error)
           this.notificationService.showNotification(`Revise as opções inseridas: ${this.errors}`, 'danger', 'bottom')
         })
-    $('#modalUpdateComp').modal('hide')
+    $('#modalUpdate').modal('hide')
     this.updateList.emit(this.att())
   }
 
@@ -316,7 +316,7 @@ export class TravelMapComponent implements OnInit {
     /* this.travelMapService.reportMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate)
     $('#modalReport').modal('hide')
     this.searchFormulary.reset() */
-
+    this.showLoadingIndicator = true
     if (this.searchFormulary.value.destinyId != null && this.searchFormulary.value.destinyId.id !== undefined) {
       this.travelMapService.reportMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate,
         2, this.searchFormulary.value.destinyId.id).subscribe(x => {
@@ -335,6 +335,7 @@ export class TravelMapComponent implements OnInit {
             window.URL.revokeObjectURL(data)
             link.remove()
           }, 100)
+          this.showLoadingIndicator = false
         })
     } else if (this.searchFormulary.value.companyId.id !== undefined) {
       this.travelMapService.reportMapsPeriod(this.searchFormulary.value.initialDate, this.searchFormulary.value.finalDate,
@@ -354,6 +355,7 @@ export class TravelMapComponent implements OnInit {
             window.URL.revokeObjectURL(data)
             link.remove()
           }, 100)
+          this.showLoadingIndicator = false
         })
 
     } else {
@@ -374,6 +376,7 @@ export class TravelMapComponent implements OnInit {
             window.URL.revokeObjectURL(data)
             link.remove()
           }, 100)
+          this.showLoadingIndicator = false
         })
 
     }
